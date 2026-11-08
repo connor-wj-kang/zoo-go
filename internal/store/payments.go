@@ -38,7 +38,7 @@ func (s *Store) PreparePayment(orderID, ownerID string, now time.Time) (domain.P
 	if err != nil {
 		return domain.PaymentAttempt{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 
 	var taskID, orderStatus, taskStatus, taskOrderID string
 	var amountFen int64
@@ -138,7 +138,7 @@ func (s *Store) ApplyPaymentNotice(notice domain.PaymentNotice, now time.Time) (
 	if err != nil {
 		return domain.TaskView{}, false, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 
 	var paymentID, paymentStatus, transactionID, orderID, ownerID, taskID, taskStatus, taskOrderID, orderStatus string
 	var paymentAmount, orderAmount int64
@@ -330,7 +330,7 @@ func (s *Store) ExpirePendingPayment(orderID string, now time.Time) (bool, error
 	if err != nil {
 		return false, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	var taskID, orderStatus, taskStatus, taskOrderID, startAt, winnerBID string
 	var deadline sql.NullString
 	err = tx.QueryRow(`
