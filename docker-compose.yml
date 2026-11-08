@@ -1,0 +1,13 @@
+services:
+  openobserve:
+    image: public.ecr.aws/zinclabs/openobserve:latest
+    container_name: openobserve
+    restart: unless-stopped
+    ports:
+      - "${O2_PORT:-5080}:5080"
+    environment:
+      ZO_ROOT_USER_EMAIL: ${O2_USER:-root@example.com}
+      ZO_ROOT_USER_PASSWORD: ${O2_PASS:?set O2_PASS in .env or the environment}
+      ZO_DATA_DIR: /data
+    volumes:
+      - ./data/openobserve:/data

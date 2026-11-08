@@ -6,8 +6,9 @@ data/*.db
 data/*.db-wal
 data/*.db-shm
 data/uploads/
-zoo-api
-api
+data/openobserve/
+/zoo-api
+/api
 *.log
 node_modules/
 dist/
