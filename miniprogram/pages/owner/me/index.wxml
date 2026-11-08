@@ -1,0 +1,53 @@
+<nav-bar title="我的" />
+
+<view class="page me-page">
+    <view wx:if="{{loading}}" class="loading-wrap">正在加载账户信息…</view>
+
+    <block wx:elif="{{profile}}">
+        <view class="card profile-card">
+            <image wx:if="{{profile.avatar}}" class="profile-avatar" src="{{profile.avatar}}" mode="aspectFill" />
+            <view wx:else class="profile-avatar profile-avatar-fallback">{{profileInitial}}</view>
+            <view class="grow">
+                <view class="profile-name">{{profile.name}}</view>
+                <view class="profile-phone">{{profile.phoneMask}} · {{profile.verified ? '已实名' : '未实名'}}</view>
+                <view class="profile-edit" bindtap="goProfile">编辑昵称与头像 <text class="profile-edit-arrow">›</text></view>
+                <view class="profile-id">账号 {{profile.id}}</view>
+            </view>
+            <view class="profile-stat">
+                <view class="profile-count">{{profile.completedOrders}}</view>
+                <view class="tiny muted">完成订单</view>
+            </view>
+        </view>
+
+        <view class="switch-card" bindtap="switchStudent">
+            <view class="switch-icon">⇄</view>
+            <view class="grow">
+                <view class="switch-title">切换为学生接单身份</view>
+                <view class="switch-desc">已通过认证的学生可在空闲时间接单</view>
+            </view>
+            <text class="switch-arrow">›</text>
+        </view>
+
+        <view class="card menu-card">
+            <view
+                wx:for="{{menu}}"
+                wx:key="label"
+                class="menu-item"
+                data-label="{{item.label}}"
+                bindtap="onMenu"
+            >
+                <view class="menu-icon">{{item.icon}}</view>
+                <view class="grow">
+                    <view class="menu-label">{{item.label}}</view>
+                    <view wx:if="{{item.desc}}" class="tiny muted menu-desc">{{item.desc}}</view>
+                </view>
+                <text class="menu-arrow">›</text>
+            </view>
+        </view>
+
+        <view class="policy-note">♡ 平台不提供医疗服务，仅限非医疗类室内照护</view>
+        <view class="version">上门喂宠 · 区域竞价 V1.0 试点</view>
+    </block>
+</view>
+
+<tab-bar role="owner" active="me" />

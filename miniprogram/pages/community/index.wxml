@@ -1,0 +1,84 @@
+<nav-bar title="邻里社区" back fallback-url="{{fallbackUrl}}" />
+
+<view class="page community-page">
+    <view class="community-hero">
+        <view class="hero-kicker">隔壁的毛孩子，也在这里被好好照顾</view>
+        <view class="hero-title">分享喂养日常，认识附近宠友</view>
+    </view>
+
+    <view class="card composer">
+        <textarea
+            class="composer-input"
+            maxlength="500"
+            value="{{content}}"
+            bindinput="onContentInput"
+            placeholder="今天毛孩子有什么新鲜事？"
+            auto-height
+        />
+        <view wx:if="{{images.length}}" class="selected-grid">
+            <view wx:for="{{images}}" wx:key="src" class="selected-item">
+                <image class="selected-image" src="{{item.src}}" mode="aspectFill" data-src="{{item.src}}" bindtap="previewSelectedImage" />
+                <view class="remove-image" data-index="{{index}}" catchtap="removeImage">×</view>
+            </view>
+        </view>
+        <view class="composer-foot">
+            <view class="image-picker" bindtap="chooseImages">
+                <text class="image-picker-icon">▧</text>
+                <text>图片 {{images.length}}/9</text>
+            </view>
+            <button class="publish-button" loading="{{publishing}}" disabled="{{publishing || !canPublish}}" bindtap="publish">发布动态</button>
+        </view>
+    </view>
+
+    <view class="section-head feed-head">
+        <text class="section-title">最新动态</text>
+        <text class="tiny muted">下拉刷新</text>
+    </view>
+
+    <view wx:if="{{loading}}" class="loading-wrap">正在加载社区动态…</view>
+    <view wx:elif="{{error}}" class="card empty">
+        {{error}}
+        <button class="btn-secondary retry-button" bindtap="retry">重新加载</button>
+    </view>
+    <block wx:else>
+        <view wx:if="{{posts.length}}" class="post-list">
+            <view class="card post-card" wx:for="{{posts}}" wx:for-index="postIndex" wx:key="id">
+                <view class="author-row">
+                    <image wx:if="{{item.author.avatarUrl}}" class="author-avatar" src="{{item.author.avatarUrl}}" mode="aspectFill" />
+                    <view wx:else class="author-avatar author-avatar-fallback">{{item.author.initial}}</view>
+                    <view class="grow">
+                        <view class="author-name-row">
+                            <text class="author-name">{{item.author.name}}</text>
+                            <text wx:if="{{item.author.verified}}" class="verified">已核验</text>
+                            <text wx:if="{{item.mine}}" class="mine-badge">我的</text>
+                        </view>
+                        <view class="tiny muted post-time">{{item.timeText}}</view>
+                    </view>
+                </view>
+                <text wx:if="{{item.content}}" class="post-content" user-select>{{item.content}}</text>
+                <view wx:if="{{item.images.length}}" class="post-images post-images-{{item.images.length}}">
+                    <image
+                        wx:for="{{item.images}}"
+                        wx:for-item="image"
+                        wx:key="path"
+                        class="post-image"
+                        src="{{image.url}}"
+                        mode="aspectFill"
+                        data-src="{{image.url}}"
+                        data-post-index="{{postIndex}}"
+                        bindtap="previewPostImage"
+                    />
+                </view>
+            </view>
+        </view>
+        <view wx:else class="empty-state">
+            <view class="empty-emoji">◎</view>
+            <view class="bold">社区还很安静</view>
+            <view class="tiny muted">发布第一条动态，和附近宠友打个招呼</view>
+        </view>
+        <button wx:if="{{hasMore}}" class="load-more" loading="{{loadingMore}}" bindtap="loadMore">加载更多</button>
+        <view wx:elif="{{posts.length}}" class="feed-end">已经看到全部动态</view>
+    </block>
+</view>
+
+<tab-bar role="{{role}}" active="community" />

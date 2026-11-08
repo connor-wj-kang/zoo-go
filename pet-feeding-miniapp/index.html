@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>上门喂宠 · 小程序原型</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+  <script>
+    // 图片备用方案，要保留，避免模型生成的图片无法加载，不要删除
+    // 准备好的备用图片
+    const fallbackImages = {
+      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400',
+      product: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600',
+      background: 'https://images.unsplash.com/photo-1557683316-973673baf926?w=1200',
+      default: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800'
+    };
+
+    // 全局监听所有图片加载错误
+    document.addEventListener('error', function(e) {
+      if (e.target.tagName === 'IMG') {
+        const img = e.target;
+
+        // 避免无限循环
+        if (img.dataset.fallbackUsed) return;
+
+        // 根据图片类别选择备用图
+        let fallbackUrl = fallbackImages.default;
+
+        if (img.alt?.includes('avatar') || img.alt?.includes('用户')) {
+          fallbackUrl = fallbackImages.avatar;
+        } else if (img.alt?.includes('product') || img.alt?.includes('商品')) {
+          fallbackUrl = fallbackImages.product;
+        } else if (img.className?.includes('background') || img.className?.includes('banner')) {
+          fallbackUrl = fallbackImages.background;
+        }
+
+        img.dataset.fallbackUsed = 'true';
+        img.src = fallbackUrl;
+      }
+    }, true);
+  </script>
+</html>

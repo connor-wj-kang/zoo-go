@@ -1,0 +1,56 @@
+<nav-bar title="收益中心" right-text="对账" bind:right="contactFinance" />
+
+<view class="page earnings-page">
+    <view wx:if="{{loading}}" class="loading-wrap">正在核对收益…</view>
+
+    <block wx:else>
+        <view class="earning-hero">
+            <view class="earning-kicker">累计预计收入（元）</view>
+            <view class="earning-total">¥{{totalText}}</view>
+            <view class="earning-row">
+                <view class="earning-box">
+                    <view class="earning-box-value">¥{{availableText}}</view>
+                    <view class="earning-box-label">已结算</view>
+                </view>
+                <view class="earning-box">
+                    <view class="earning-box-value">¥{{pendingText}}</view>
+                    <view class="earning-box-label">待结算</view>
+                </view>
+                <view class="earning-box">
+                    <view class="earning-box-value">{{completedOrders}}</view>
+                    <view class="earning-box-label">完成订单</view>
+                </view>
+            </view>
+        </view>
+
+        <view class="settlement-tip">ⓘ 平台服务费按成交价 10% 计算；最终结算以订单与对账结果为准。</view>
+
+        <view class="section">
+            <view class="section-head"><text class="section-title">收益明细</text><text class="tiny muted">按服务日期</text></view>
+            <view wx:if="{{records.length}}" class="record-list">
+                <view class="card record-card" wx:for="{{records}}" wx:key="orderId">
+                    <view class="between record-head">
+                        <view>
+                            <view class="bold">{{item.petName}} 上门照护</view>
+                            <view class="tiny muted">{{item.serviceDate}} {{item.timeWindow}}</view>
+                        </view>
+                        <text class="status-pill status-secondary">{{item.statusText}}</text>
+                    </view>
+                    <view class="record-money">
+                        <view class="money-cell"><text class="tiny muted">成交价</text><text>¥{{item.amountText}}</text></view>
+                        <view class="money-cell"><text class="tiny muted">服务费</text><text>− ¥{{item.feeText}}</text></view>
+                        <view class="money-cell money-cell-main"><text class="tiny muted">预计实收</text><text class="receive">¥{{item.studentText}}</text></view>
+                    </view>
+                </view>
+            </view>
+            <view wx:else class="empty-state">
+                <view class="empty-emoji">¥</view>
+                <view class="bold">暂无收益记录</view>
+                <view class="tiny muted empty-desc">完成首单并验收后，收益会显示在这里</view>
+                <button class="btn-primary task-button" bindtap="goTasks">查看我的任务</button>
+            </view>
+        </view>
+    </block>
+</view>
+
+<tab-bar role="student" active="earnings" />

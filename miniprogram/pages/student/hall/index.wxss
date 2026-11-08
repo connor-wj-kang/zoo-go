@@ -1,0 +1,204 @@
+.hall-page {
+    padding-top: 20rpx;
+}
+
+.hall-hero {
+    padding: 36rpx 32rpx;
+    border-radius: 36rpx;
+    color: #ffffff;
+    background: linear-gradient(125deg, #0f766e, #14b8a6);
+    box-shadow: 0 18rpx 42rpx rgba(13, 148, 136, 0.22);
+}
+
+.hall-kicker {
+    font-size: 21rpx;
+    opacity: 0.78;
+}
+
+.hall-title {
+    margin-top: 10rpx;
+    font-size: 42rpx;
+    font-weight: 900;
+}
+
+.hall-subtitle {
+    margin-top: 7rpx;
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 21rpx;
+}
+
+.hall-stat-row {
+    display: flex;
+    align-items: center;
+    margin-top: 28rpx;
+    padding: 18rpx 20rpx;
+    border-radius: 22rpx;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.hall-stat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hall-stat-value {
+    font-size: 30rpx;
+    font-weight: 900;
+}
+
+.hall-stat-label {
+    margin-top: 4rpx;
+    font-size: 18rpx;
+    opacity: 0.74;
+}
+
+.hall-stat-divider {
+    width: 1rpx;
+    height: 38rpx;
+    background: rgba(255, 255, 255, 0.24);
+}
+
+.safety-note {
+    display: flex;
+    align-items: center;
+    gap: 9rpx;
+    margin-top: 20rpx;
+    color: #0f766e;
+    font-size: 21rpx;
+}
+
+.safety-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26rpx;
+    height: 26rpx;
+    border-radius: 50%;
+    color: #ffffff;
+    background: #14b8a6;
+    font-size: 17rpx;
+}
+
+.safety-note-warning {
+    color: #b45309;
+}
+
+.safety-note-warning .safety-icon {
+    background: #f59e0b;
+}
+
+.hall-task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18rpx;
+}
+
+.hall-task {
+    padding: 24rpx;
+}
+
+.hall-task-head {
+    display: flex;
+    align-items: center;
+    gap: 18rpx;
+}
+
+.hall-pet {
+    width: 104rpx;
+    height: 104rpx;
+    flex-shrink: 0;
+    border-radius: 24rpx;
+}
+
+.hall-task-name {
+    max-width: 350rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 27rpx;
+    font-weight: 800;
+}
+
+.hall-task-location {
+    margin-top: 7rpx;
+    color: #6b7280;
+    font-size: 21rpx;
+}
+
+.hall-meta-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 20rpx;
+    padding: 17rpx 20rpx;
+    border-radius: 18rpx;
+    background: #f7f5f2;
+}
+
+.hall-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4rpx;
+}
+
+.hall-meta-right {
+    align-items: flex-end;
+}
+
+.hall-price {
+    color: #ea580c;
+    font-size: 35rpx;
+    font-weight: 900;
+}
+
+.hall-services {
+    margin-top: 14rpx;
+    color: #374151;
+    font-size: 22rpx;
+}
+
+.hall-task-foot {
+    margin-top: 18rpx;
+}
+
+.quote-link,
+.my-bid {
+    color: #ea580c;
+    font-size: 22rpx;
+    font-weight: 700;
+}
+
+.my-bid {
+    color: #0d9488;
+}
+
+.retry {
+    width: 260rpx;
+    min-height: 70rpx;
+    margin: 24rpx auto 0;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 100rpx 0;
+}
+
+.empty-emoji {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 130rpx;
+    height: 130rpx;
+    margin-bottom: 20rpx;
+    border-radius: 50%;
+    background: #ffffff;
+    font-size: 55rpx;
+}
+
+.empty-state .tiny {
+    margin-top: 8rpx;
+}

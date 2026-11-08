@@ -1,0 +1,13 @@
+.DS_Store
+.env.local
+secrets/
+*.pem
+data/*.db
+data/*.db-wal
+data/*.db-shm
+data/uploads/
+zoo-api
+api
+*.log
+node_modules/
+dist/

@@ -1,0 +1,32 @@
+<nav-bar title="编辑个人资料" back />
+
+<view class="page profile-page">
+    <view wx:if="{{loading}}" class="loading-wrap">正在加载个人资料…</view>
+
+    <block wx:else>
+        <view class="card avatar-card">
+            <button class="avatar-button" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+                <image wx:if="{{avatarPreview}}" class="avatar-image" src="{{avatarPreview}}" mode="aspectFill" />
+                <view wx:else class="avatar-image avatar-placeholder">{{initials}}</view>
+                <view class="camera-badge">＋</view>
+            </button>
+            <view class="avatar-title">设置头像</view>
+            <view class="tiny muted avatar-desc">点击头像，从微信头像或相册中选择</view>
+        </view>
+
+        <view class="card form-card">
+            <view class="form-label">昵称</view>
+            <input
+                class="name-input"
+                type="nickname"
+                maxlength="24"
+                value="{{name}}"
+                bindinput="onNameInput"
+                placeholder="点击使用微信昵称"
+            />
+            <view class="field-hint">微信登录只提供 OpenID，不会自动返回微信昵称和头像；需要在这里主动设置一次。</view>
+        </view>
+
+        <button class="btn-primary save-button" loading="{{saving}}" disabled="{{saving}}" bindtap="save">保存资料</button>
+    </block>
+</view>

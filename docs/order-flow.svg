@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1250" viewBox="0 0 1800 1250" role="img" aria-labelledby="title desc">
+<title id="title">上门喂宠订单流转图</title><desc id="desc">任务、订单、支付、退款状态及其异常分支</desc>
+<defs>
+  <filter id="softShadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0F172A" flood-opacity="0.10"/></filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="8.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
+  <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="8.6" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,5 L0,10 z" fill="#EF4444"/></marker>
+  <style>text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; }</style>
+</defs>
+<rect width="1800" height="1250" fill="#F7F5F2"/>
+<circle cx="1660" cy="80" r="180" fill="#FFF0D9" opacity="0.55"/><circle cx="1500" cy="1180" r="230" fill="#E5F7EE" opacity="0.48"/>
+<text x="60" y="58" text-anchor="start" font-size="30" font-weight="900" fill="#172033" letter-spacing="0.5">上门喂宠｜订单流转图</text>
+<text x="60" y="88" text-anchor="start" font-size="14" font-weight="600" fill="#64748B" letter-spacing="0">主链路、支付确认、超时抢占与退款补偿</text>
+<rect x="1120" y="45" width="18" height="18" rx="5" fill="#EAF2FF" stroke="#3B82F6" stroke-width="1.8"/>
+<text x="1147" y="59" text-anchor="start" font-size="12.5" font-weight="650" fill="#64748B" letter-spacing="0">任务状态</text>
+<rect x="1250" y="45" width="18" height="18" rx="5" fill="#EAF8F0" stroke="#10B981" stroke-width="1.8"/>
+<text x="1277" y="59" text-anchor="start" font-size="12.5" font-weight="650" fill="#64748B" letter-spacing="0">支付状态</text>
+<rect x="1380" y="45" width="18" height="18" rx="5" fill="#FDECEC" stroke="#EF4444" stroke-width="1.8"/>
+<text x="1407" y="59" text-anchor="start" font-size="12.5" font-weight="650" fill="#64748B" letter-spacing="0">退款状态</text>
+<rect x="1510" y="45" width="18" height="18" rx="5" fill="#F1F5F9" stroke="#94A3B8" stroke-width="1.8"/>
+<text x="1537" y="59" text-anchor="start" font-size="12.5" font-weight="650" fill="#64748B" letter-spacing="0">终态 / 关闭</text>
+<g filter="url(#softShadow)"><rect x="60" y="190" width="230" height="110" rx="18" fill="#EAF2FF" stroke="#3B82F6" stroke-width="2.2"/></g>
+<rect x="202" y="202" width="76" height="24" rx="12" fill="#3B82F6" opacity="0.14"/>
+<text x="240" y="219" text-anchor="middle" font-size="11" font-weight="750" fill="#3B82F6" letter-spacing="0">任务</text>
+<text x="175" y="233" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">BIDDING</text>
+<text x="175" y="259" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">竞价中 · 学生可报价</text>
+<g filter="url(#softShadow)"><rect x="350" y="190" width="270" height="110" rx="18" fill="#EAF2FF" stroke="#3B82F6" stroke-width="2.2"/></g>
+<rect x="500" y="202" width="108" height="24" rx="12" fill="#3B82F6" opacity="0.14"/>
+<text x="554" y="219" text-anchor="middle" font-size="11" font-weight="750" fill="#3B82F6" letter-spacing="0">任务 + 订单</text>
+<text x="485" y="233" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">PENDING_PAYMENT</text>
+<text x="485" y="259" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">订单 UNPAID · 已占学生时段</text>
+<g filter="url(#softShadow)"><rect x="680" y="190" width="250" height="110" rx="18" fill="#EAF2FF" stroke="#3B82F6" stroke-width="2.2"/></g>
+<rect x="810" y="202" width="108" height="24" rx="12" fill="#3B82F6" opacity="0.14"/>
+<text x="864" y="219" text-anchor="middle" font-size="11" font-weight="750" fill="#3B82F6" letter-spacing="0">任务 + 订单</text>
+<text x="805" y="233" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">BOOKED</text>
+<text x="805" y="259" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">订单 PAID · 等待上门</text>
+<g filter="url(#softShadow)"><rect x="990" y="190" width="220" height="110" rx="18" fill="#EAF2FF" stroke="#3B82F6" stroke-width="2.2"/></g>
+<rect x="1122" y="202" width="76" height="24" rx="12" fill="#3B82F6" opacity="0.14"/>
+<text x="1160" y="219" text-anchor="middle" font-size="11" font-weight="750" fill="#3B82F6" letter-spacing="0">履约</text>
+<text x="1100" y="233" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">IN_SERVICE</text>
+<text x="1100" y="259" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">学生已签到</text>
+<g filter="url(#softShadow)"><rect x="1270" y="190" width="240" height="110" rx="18" fill="#EAF2FF" stroke="#3B82F6" stroke-width="2.2"/></g>
+<rect x="1422" y="202" width="76" height="24" rx="12" fill="#3B82F6" opacity="0.14"/>
+<text x="1460" y="219" text-anchor="middle" font-size="11" font-weight="750" fill="#3B82F6" letter-spacing="0">履约</text>
+<text x="1390" y="233" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">PENDING_CONFIRM</text>
+<text x="1390" y="259" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">凭证已提交 · 待验收</text>
+<g filter="url(#softShadow)"><rect x="1570" y="190" width="180" height="110" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.2"/></g>
+<rect x="1662" y="202" width="76" height="24" rx="12" fill="#94A3B8" opacity="0.14"/>
+<text x="1700" y="219" text-anchor="middle" font-size="11" font-weight="750" fill="#94A3B8" letter-spacing="0">终态</text>
+<text x="1660" y="233" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">COMPLETED</text>
+<text x="1660" y="259" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">订单完成</text>
+<path d="M290 245 H347" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="320" y="172" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">选人锁定</text>
+<text x="320" y="172" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">选人锁定</text>
+<path d="M620 245 H677" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="650" y="172" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">支付成功</text>
+<text x="650" y="172" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">支付成功</text>
+<path d="M930 245 H987" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="960" y="172" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">签到</text>
+<text x="960" y="172" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">签到</text>
+<path d="M1210 245 H1267" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="1240" y="172" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">提交凭证</text>
+<text x="1240" y="172" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">提交凭证</text>
+<path d="M1510 245 H1567" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="1540" y="172" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">验收</text>
+<text x="1540" y="172" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">验收</text>
+<rect x="350" y="108" width="580" height="38" rx="14" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1.4"/>
+<text x="640" y="133" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9A3412" letter-spacing="0">关键闸门：只有微信回调 / 主动查单确认金额与交易号后，UNPAID 才能进入 PAID → BOOKED</text>
+<g filter="url(#softShadow)"><rect x="250" y="420" width="250" height="90" rx="18" fill="#EAF2FF" stroke="#3B82F6" stroke-width="2.2"/></g>
+<rect x="412" y="432" width="76" height="24" rx="12" fill="#3B82F6" opacity="0.14"/>
+<text x="450" y="449" text-anchor="middle" font-size="11" font-weight="750" fill="#3B82F6" letter-spacing="0">释放时段</text>
+<text x="375" y="463" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">BIDDING</text>
+<text x="375" y="489" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">超时未支付 · 距服务 &gt; 1h</text>
+<g filter="url(#softShadow)"><rect x="530" y="420" width="210" height="90" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.2"/></g>
+<rect x="652" y="432" width="76" height="24" rx="12" fill="#94A3B8" opacity="0.14"/>
+<text x="690" y="449" text-anchor="middle" font-size="11" font-weight="750" fill="#94A3B8" letter-spacing="0">释放时段</text>
+<text x="635" y="463" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">EXPIRED</text>
+<text x="635" y="489" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">超时未支付 · 距服务 ≤ 1h</text>
+<g filter="url(#softShadow)"><rect x="800" y="405" width="340" height="110" rx="18" fill="#FDECEC" stroke="#EF4444" stroke-width="2.2"/></g>
+<rect x="1052" y="417" width="76" height="24" rx="12" fill="#EF4444" opacity="0.14"/>
+<text x="1090" y="434" text-anchor="middle" font-size="11" font-weight="750" fill="#EF4444" letter-spacing="0">退款</text>
+<text x="970" y="448" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">REFUNDING</text>
+<text x="970" y="474" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">退款处理中 · 学生时段仍锁定</text>
+<g filter="url(#softShadow)"><rect x="1250" y="405" width="230" height="90" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.2"/></g>
+<rect x="1392" y="417" width="76" height="24" rx="12" fill="#94A3B8" opacity="0.14"/>
+<text x="1430" y="434" text-anchor="middle" font-size="11" font-weight="750" fill="#94A3B8" letter-spacing="0">退款成功</text>
+<text x="1365" y="448" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">CANCELLED</text>
+<text x="1365" y="474" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">退款完成 · 任务终止</text>
+<g filter="url(#softShadow)"><rect x="1250" y="535" width="230" height="82" rx="18" fill="#EAF2FF" stroke="#3B82F6" stroke-width="2.2"/></g>
+<rect x="1384" y="547" width="84" height="24" rx="12" fill="#3B82F6" opacity="0.14"/>
+<text x="1426" y="564" text-anchor="middle" font-size="11" font-weight="750" fill="#3B82F6" letter-spacing="0">仅限未开始</text>
+<text x="1365" y="578" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">BOOKED</text>
+<text x="1365" y="604" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">普通退款失败 · 恢复预约</text>
+<path d="M375 300 V417" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="375" y="392" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">超时重开</text>
+<text x="375" y="392" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">超时重开</text>
+<path d="M560 300 V380 H635 V417" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="650" y="398" text-anchor="start" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">超时过期</text>
+<text x="650" y="398" text-anchor="start" font-size="12" font-weight="650" fill="#64748B">超时过期</text>
+<path d="M600 300 V335 H850 V402" fill="none" stroke="#EF4444" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrowRed)"/>
+<text x="725" y="323" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">截止后支付成功 → PAID_LATE</text>
+<text x="725" y="323" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">截止后支付成功 → PAID_LATE</text>
+<path d="M900 300 V370 H1060 V402" fill="none" stroke="#EF4444" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrowRed)"/>
+<text x="930" y="359" text-anchor="start" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">主人退款 / 审核开始</text>
+<text x="930" y="359" text-anchor="start" font-size="12" font-weight="650" fill="#64748B">主人退款 / 审核开始</text>
+<path d="M1140 460 H1247" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="1193" y="447" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">退款 SUCCESS</text>
+<text x="1193" y="447" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">退款 SUCCESS</text>
+<path d="M1080 515 V575 H1247" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 7" marker-end="url(#arrow)"/>
+<text x="1160" y="565" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">退款 FAILED</text>
+<text x="1160" y="565" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">退款 FAILED</text>
+<text x="800" y="543" text-anchor="start" font-size="12" font-weight="600" fill="#64748B" letter-spacing="0">迟到支付只退旧订单，不影响任务新订单</text>
+<rect x="60" y="640" width="800" height="510" rx="24" fill="#FFFFFF" fill-opacity="0.66" stroke="#D8DEE8" stroke-width="1.5"/>
+<text x="90" y="682" text-anchor="start" font-size="20" font-weight="800" fill="#172033" letter-spacing="0">支付子状态</text>
+<text x="90" y="706" text-anchor="start" font-size="12.5" font-weight="550" fill="#64748B" letter-spacing="0">微信支付 v3 · 固定商户单号 · 回调/查单幂等</text>
+<g filter="url(#softShadow)"><rect x="100" y="740" width="170" height="80" rx="18" fill="#EAF8F0" stroke="#10B981" stroke-width="2.2"/></g>
+<rect x="182" y="752" width="76" height="24" rx="12" fill="#10B981" opacity="0.14"/>
+<text x="220" y="769" text-anchor="middle" font-size="11" font-weight="750" fill="#10B981" letter-spacing="0">支付</text>
+<text x="185" y="783" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">PREPARING</text>
+<text x="185" y="809" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">创建本地支付单</text>
+<g filter="url(#softShadow)"><rect x="330" y="740" width="170" height="80" rx="18" fill="#EAF8F0" stroke="#10B981" stroke-width="2.2"/></g>
+<rect x="412" y="752" width="76" height="24" rx="12" fill="#10B981" opacity="0.14"/>
+<text x="450" y="769" text-anchor="middle" font-size="11" font-weight="750" fill="#10B981" letter-spacing="0">支付</text>
+<text x="415" y="783" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">PREPARED</text>
+<text x="415" y="809" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">已取得 prepay_id</text>
+<g filter="url(#softShadow)"><rect x="570" y="690" width="220" height="82" rx="18" fill="#EAF8F0" stroke="#10B981" stroke-width="2.2"/></g>
+<rect x="702" y="702" width="76" height="24" rx="12" fill="#10B981" opacity="0.14"/>
+<text x="740" y="719" text-anchor="middle" font-size="11" font-weight="750" fill="#10B981" letter-spacing="0">截止前</text>
+<text x="680" y="733" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">PAID</text>
+<text x="680" y="759" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">订单 PAID · 任务 BOOKED</text>
+<g filter="url(#softShadow)"><rect x="570" y="835" width="220" height="82" rx="18" fill="#FDECEC" stroke="#EF4444" stroke-width="2.2"/></g>
+<rect x="702" y="847" width="76" height="24" rx="12" fill="#EF4444" opacity="0.14"/>
+<text x="740" y="864" text-anchor="middle" font-size="11" font-weight="750" fill="#EF4444" letter-spacing="0">截止后</text>
+<text x="680" y="878" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">PAID_LATE</text>
+<text x="680" y="904" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">订单 REFUNDING · 自动退款</text>
+<g filter="url(#softShadow)"><rect x="330" y="870" width="170" height="76" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.2"/></g>
+<rect x="412" y="882" width="76" height="24" rx="12" fill="#94A3B8" opacity="0.14"/>
+<text x="450" y="899" text-anchor="middle" font-size="11" font-weight="750" fill="#94A3B8" letter-spacing="0">终态</text>
+<text x="415" y="913" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">CLOSED</text>
+<text x="415" y="939" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">超时关单</text>
+<g filter="url(#softShadow)"><rect x="100" y="870" width="170" height="76" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.2"/></g>
+<rect x="182" y="882" width="76" height="24" rx="12" fill="#94A3B8" opacity="0.14"/>
+<text x="220" y="899" text-anchor="middle" font-size="11" font-weight="750" fill="#94A3B8" letter-spacing="0">可重试</text>
+<text x="185" y="913" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">FAILED</text>
+<text x="185" y="939" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">预下单异常</text>
+<path d="M270 780 H327" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="299" y="765" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">预下单</text>
+<text x="299" y="765" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">预下单</text>
+<path d="M500 760 H540 V731 H567" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="532" y="716" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">成功</text>
+<text x="532" y="716" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">成功</text>
+<path d="M500 800 H540 V876 H567" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="535" y="852" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">迟到</text>
+<text x="535" y="852" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">迟到</text>
+<path d="M415 820 V867" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="438" y="847" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">超时</text>
+<text x="438" y="847" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">超时</text>
+<path d="M185 820 V867" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="205" y="847" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">异常</text>
+<text x="205" y="847" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">异常</text>
+<text x="100" y="1005" text-anchor="start" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">同一订单重复拉起收银台，始终复用同一个 out_trade_no</text>
+<text x="100" y="1034" text-anchor="start" font-size="12.5" font-weight="700" fill="#166534" letter-spacing="0">支付状态只信微信回调或服务端查单；客户端不能直接改 PAID</text>
+<text x="100" y="1063" text-anchor="start" font-size="12.5" font-weight="700" fill="#9A3412" letter-spacing="0">迟到支付：PAID_LATE → 订单 REFUNDING → 自动生成 REQUESTED 退款</text>
+<rect x="900" y="640" width="840" height="510" rx="24" fill="#FFFFFF" fill-opacity="0.66" stroke="#D8DEE8" stroke-width="1.5"/>
+<text x="930" y="682" text-anchor="start" font-size="20" font-weight="800" fill="#172033" letter-spacing="0">退款子状态</text>
+<text x="930" y="706" text-anchor="start" font-size="12.5" font-weight="550" fill="#64748B" letter-spacing="0">V1 人工审核 · 微信原路退款 · 处理中主动查单</text>
+<g filter="url(#softShadow)"><rect x="940" y="740" width="180" height="80" rx="18" fill="#FDECEC" stroke="#EF4444" stroke-width="2.2"/></g>
+<rect x="1032" y="752" width="76" height="24" rx="12" fill="#EF4444" opacity="0.14"/>
+<text x="1070" y="769" text-anchor="middle" font-size="11" font-weight="750" fill="#EF4444" letter-spacing="0">待审核</text>
+<text x="1030" y="783" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">REQUESTED</text>
+<text x="1030" y="809" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">主人申请 / 自动生成</text>
+<g filter="url(#softShadow)"><rect x="1200" y="740" width="180" height="80" rx="18" fill="#FDECEC" stroke="#EF4444" stroke-width="2.2"/></g>
+<rect x="1292" y="752" width="76" height="24" rx="12" fill="#EF4444" opacity="0.14"/>
+<text x="1330" y="769" text-anchor="middle" font-size="11" font-weight="750" fill="#EF4444" letter-spacing="0">退款中</text>
+<text x="1290" y="783" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">PROCESSING</text>
+<text x="1290" y="809" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">管理员已认领</text>
+<g filter="url(#softShadow)"><rect x="1480" y="690" width="200" height="82" rx="18" fill="#EAF8F0" stroke="#10B981" stroke-width="2.2"/></g>
+<rect x="1592" y="702" width="76" height="24" rx="12" fill="#10B981" opacity="0.14"/>
+<text x="1630" y="719" text-anchor="middle" font-size="11" font-weight="750" fill="#10B981" letter-spacing="0">终态</text>
+<text x="1580" y="733" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">SUCCESS</text>
+<text x="1580" y="759" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">订单退款 · 任务取消</text>
+<g filter="url(#softShadow)"><rect x="1480" y="830" width="200" height="82" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.2"/></g>
+<rect x="1592" y="842" width="76" height="24" rx="12" fill="#94A3B8" opacity="0.14"/>
+<text x="1630" y="859" text-anchor="middle" font-size="11" font-weight="750" fill="#94A3B8" letter-spacing="0">可重试</text>
+<text x="1580" y="873" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">FAILED</text>
+<text x="1580" y="899" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">普通失败 · 恢复预约</text>
+<g filter="url(#softShadow)"><rect x="940" y="870" width="180" height="76" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.2"/></g>
+<rect x="1032" y="882" width="76" height="24" rx="12" fill="#94A3B8" opacity="0.14"/>
+<text x="1070" y="899" text-anchor="middle" font-size="11" font-weight="750" fill="#94A3B8" letter-spacing="0">终态</text>
+<text x="1030" y="913" text-anchor="middle" font-size="17" font-weight="800" fill="#172033" letter-spacing="0.2">REJECTED</text>
+<text x="1030" y="939" text-anchor="middle" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">管理员驳回</text>
+<path d="M1120 780 H1197" fill="none" stroke="#EF4444" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrowRed)"/>
+<text x="1158" y="765" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">审核通过</text>
+<text x="1158" y="765" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">审核通过</text>
+<path d="M1380 760 H1425 V731 H1477" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="1437" y="716" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">退款成功</text>
+<text x="1437" y="716" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">退款成功</text>
+<path d="M1380 800 H1425 V871 H1477" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="1436" y="848" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">异常 / 关闭</text>
+<text x="1436" y="848" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">异常 / 关闭</text>
+<path d="M1480 871 C1400 930,1320 900,1290 823" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 7" marker-end="url(#arrow)"/>
+<text x="1370" y="925" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">管理员重试</text>
+<text x="1370" y="925" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">管理员重试</text>
+<path d="M1030 820 V867" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"  marker-end="url(#arrow)"/>
+<text x="1055" y="848" text-anchor="middle" font-size="12" font-weight="650" fill="#F7F5F2" stroke="#F7F5F2" stroke-width="5" stroke-linejoin="round">驳回</text>
+<text x="1055" y="848" text-anchor="middle" font-size="12" font-weight="650" fill="#64748B">驳回</text>
+<text x="940" y="1005" text-anchor="start" font-size="12.5" font-weight="700" fill="#991B1B" letter-spacing="0">迟到支付的退款不允许驳回，只能继续重试原路退款</text>
+<text x="940" y="1034" text-anchor="start" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">out_refund_no 固定唯一；SUCCESS 重复回调直接返回原结果</text>
+<text x="940" y="1063" text-anchor="start" font-size="12.5" font-weight="600" fill="#64748B" letter-spacing="0">PROCESSING 每 30 秒查单，补偿丢失回调或进程重启</text>
+<rect x="60" y="1180" width="1680" height="42" rx="14" fill="#172033"/>
+<text x="88" y="1207" text-anchor="start" font-size="12.5" font-weight="800" fill="#FDE68A" letter-spacing="0">最终防线</text>
+<text x="170" y="1207" text-anchor="start" font-size="12.5" font-weight="650" fill="#F8FAFC" letter-spacing="0">一个任务仅一个活动订单  ·  student_slots(student_id, slot_at) 唯一  ·  微信交易号/退款单号唯一  ·  重复回调幂等  ·  Redis 不是最终锁</text>
+</svg>

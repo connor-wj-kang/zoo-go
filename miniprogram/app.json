@@ -1,0 +1,40 @@
+{
+    "pages": [
+        "pages/owner/home/index",
+        "pages/owner/pet-edit/index",
+        "pages/owner/publish/index",
+        "pages/owner/task/index",
+        "pages/owner/orders/index",
+        "pages/owner/order/index",
+        "pages/owner/me/index",
+        "pages/profile/index",
+        "pages/student/hall/index",
+        "pages/student/task/index",
+        "pages/student/tasks/index",
+        "pages/student/fulfill/index",
+        "pages/student/earnings/index",
+        "pages/student/verify/index",
+        "pages/community/index"
+    ],
+    "window": {
+        "navigationStyle": "custom",
+        "backgroundColor": "#F7F5F2",
+        "backgroundTextStyle": "dark"
+    },
+    "usingComponents": {
+        "nav-bar": "/components/nav-bar/index",
+        "tab-bar": "/components/tab-bar/index"
+    },
+    "permission": {
+        "scope.userLocation": {
+            "desc": "用于匹配 5 公里内的喂宠任务，并在成交前隐藏主人详细门牌"
+        }
+    },
+    "requiredPrivateInfos": [
+        "getLocation",
+        "chooseLocation"
+    ],
+    "style": "v2",
+    "lazyCodeLoading": "requiredComponents",
+    "sitemapLocation": "sitemap.json"
+}

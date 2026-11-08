@@ -1,0 +1,95 @@
+.profile-page {
+    padding-top: 24rpx;
+    padding-bottom: 50rpx;
+}
+
+.avatar-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 38rpx 28rpx;
+}
+
+.avatar-button {
+    position: relative;
+    width: 176rpx;
+    height: 176rpx;
+    padding: 0;
+    overflow: visible;
+    border-radius: 50%;
+}
+
+.avatar-image {
+    width: 176rpx;
+    height: 176rpx;
+    border: 6rpx solid #ffffff;
+    border-radius: 50%;
+    background: #f3f4f6;
+    box-shadow: 0 12rpx 30rpx rgba(31, 41, 55, 0.14);
+}
+
+.avatar-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    background: linear-gradient(135deg, #fb923c, #ea580c);
+    font-size: 58rpx;
+    font-weight: 900;
+}
+
+.camera-badge {
+    position: absolute;
+    right: 2rpx;
+    bottom: 6rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50rpx;
+    height: 50rpx;
+    border: 4rpx solid #ffffff;
+    border-radius: 50%;
+    color: #ffffff;
+    background: #0f766e;
+    font-size: 30rpx;
+}
+
+.avatar-title {
+    margin-top: 23rpx;
+    font-size: 29rpx;
+    font-weight: 800;
+}
+
+.avatar-desc {
+    margin-top: 7rpx;
+}
+
+.form-card {
+    margin-top: 22rpx;
+}
+
+.form-label {
+    margin-bottom: 12rpx;
+    font-size: 26rpx;
+    font-weight: 700;
+}
+
+.name-input {
+    height: 88rpx;
+    padding: 0 22rpx;
+    border: 1rpx solid #e5e7eb;
+    border-radius: 18rpx;
+    background: #fafafa;
+    font-size: 28rpx;
+}
+
+.field-hint {
+    margin-top: 14rpx;
+    color: #6b7280;
+    font-size: 21rpx;
+    line-height: 1.55;
+}
+
+.save-button {
+    margin-top: 30rpx;
+}

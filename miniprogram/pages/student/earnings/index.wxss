@@ -1,0 +1,128 @@
+.earnings-page {
+    padding-top: 22rpx;
+}
+
+.earning-hero {
+    padding: 36rpx 32rpx 28rpx;
+    border-radius: 36rpx;
+    color: #ffffff;
+    background: linear-gradient(130deg, #0f766e, #0d9488 60%, #14b8a6);
+    box-shadow: 0 20rpx 45rpx rgba(13, 148, 136, 0.24);
+}
+
+.earning-kicker {
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 22rpx;
+}
+
+.earning-total {
+    margin-top: 9rpx;
+    font-size: 66rpx;
+    font-weight: 900;
+    letter-spacing: 1rpx;
+}
+
+.earning-row {
+    display: flex;
+    gap: 12rpx;
+    margin-top: 26rpx;
+}
+
+.earning-box {
+    flex: 1;
+    padding: 17rpx 10rpx;
+    border-radius: 18rpx;
+    background: rgba(255, 255, 255, 0.12);
+    text-align: center;
+}
+
+.earning-box-value {
+    font-size: 27rpx;
+    font-weight: 800;
+}
+
+.earning-box-label {
+    margin-top: 4rpx;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 18rpx;
+}
+
+.settlement-tip {
+    margin-top: 18rpx;
+    padding: 17rpx 20rpx;
+    border-radius: 16rpx;
+    color: #92400e;
+    background: #fef3c7;
+    font-size: 20rpx;
+    line-height: 1.5;
+}
+
+.record-list {
+    display: flex;
+    flex-direction: column;
+    gap: 17rpx;
+}
+
+.record-card {
+    padding: 24rpx;
+}
+
+.record-head {
+    align-items: flex-start;
+}
+
+.record-money {
+    display: flex;
+    gap: 12rpx;
+    margin-top: 19rpx;
+    padding-top: 18rpx;
+    border-top: 1rpx solid #f0f1f3;
+}
+
+.money-cell {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4rpx;
+    font-size: 23rpx;
+}
+
+.money-cell-main {
+    align-items: flex-end;
+}
+
+.receive {
+    color: #0d9488;
+    font-size: 27rpx;
+    font-weight: 900;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 90rpx 0 30rpx;
+}
+
+.empty-emoji {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 130rpx;
+    height: 130rpx;
+    margin-bottom: 20rpx;
+    border-radius: 50%;
+    color: #0d9488;
+    background: #f0fdfa;
+    font-size: 50rpx;
+    font-weight: 900;
+}
+
+.empty-desc {
+    margin-top: 8rpx;
+}
+
+.task-button {
+    width: 300rpx;
+    margin-top: 28rpx;
+}

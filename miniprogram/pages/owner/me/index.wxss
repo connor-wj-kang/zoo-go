@@ -1,0 +1,159 @@
+.me-page {
+    padding-top: 24rpx;
+}
+
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: 22rpx;
+    background: linear-gradient(135deg, #fff7ed, #ffffff);
+}
+
+.profile-avatar {
+    width: 118rpx;
+    height: 118rpx;
+    border: 5rpx solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 9rpx 22rpx rgba(31, 41, 55, 0.12);
+}
+
+.profile-avatar-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    background: linear-gradient(135deg, #fb923c, #ea580c);
+    font-size: 44rpx;
+    font-weight: 900;
+}
+
+.profile-name {
+    font-size: 37rpx;
+    font-weight: 900;
+}
+
+.profile-phone {
+    margin-top: 6rpx;
+    color: #6b7280;
+    font-size: 22rpx;
+}
+
+.profile-edit {
+    margin-top: 8rpx;
+    color: #ea580c;
+    font-size: 21rpx;
+    font-weight: 600;
+}
+
+.profile-edit-arrow {
+    font-size: 25rpx;
+}
+
+.profile-id {
+    margin-top: 5rpx;
+    color: #9ca3af;
+    font-size: 17rpx;
+}
+
+.profile-stat {
+    min-width: 105rpx;
+    text-align: center;
+}
+
+.profile-count {
+    color: #ea580c;
+    font-size: 40rpx;
+    font-weight: 900;
+}
+
+.switch-card {
+    display: flex;
+    align-items: center;
+    gap: 20rpx;
+    margin-top: 22rpx;
+    padding: 27rpx;
+    border-radius: 30rpx;
+    color: #ffffff;
+    background: linear-gradient(100deg, #14b8a6, #0f766e);
+    box-shadow: 0 15rpx 32rpx rgba(13, 148, 136, 0.2);
+}
+
+.switch-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64rpx;
+    height: 64rpx;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    font-size: 34rpx;
+}
+
+.switch-title {
+    font-size: 27rpx;
+    font-weight: 800;
+}
+
+.switch-desc {
+    margin-top: 4rpx;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 21rpx;
+}
+
+.switch-arrow {
+    font-size: 38rpx;
+}
+
+.menu-card {
+    margin-top: 24rpx;
+    padding: 0 28rpx;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 20rpx;
+    padding: 26rpx 0;
+    border-bottom: 1rpx solid rgba(229, 231, 235, 0.68);
+}
+
+.menu-item:last-child {
+    border-bottom: 0;
+}
+
+.menu-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48rpx;
+    height: 48rpx;
+    color: #f97316;
+    font-size: 28rpx;
+}
+
+.menu-label {
+    font-size: 26rpx;
+}
+
+.menu-desc {
+    margin-top: 3rpx;
+}
+
+.menu-arrow {
+    color: #9ca3af;
+    font-size: 35rpx;
+}
+
+.policy-note {
+    margin-top: 32rpx;
+    text-align: center;
+    color: #6b7280;
+    font-size: 20rpx;
+}
+
+.version {
+    margin-top: 12rpx;
+    text-align: center;
+    color: #b0b5bd;
+    font-size: 18rpx;
+}

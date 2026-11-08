@@ -1,0 +1,114 @@
+<nav-bar title="我的" right-text="主人端" bind:right="switchOwner" />
+
+<view class="page verify-page">
+    <view wx:if="{{loading}}" class="loading-wrap">正在加载认证信息…</view>
+
+    <block wx:elif="{{student}}">
+        <view class="card verify-card">
+            <image wx:if="{{student.avatar}}" class="verify-avatar" src="{{student.avatar}}" mode="aspectFill" />
+            <view wx:else class="verify-avatar avatar-fallback">{{initial}}</view>
+            <view class="grow">
+                <view class="row name-row">
+                    <text class="verify-name">{{student.name}}</text>
+                    <text wx:if="{{student.verified}}" class="verified">已核验</text>
+                    <text wx:elif="{{isPending}}" class="pending">审核中</text>
+                    <text wx:elif="{{isRejected}}" class="rejected">未通过</text>
+                    <text wx:elif="{{isExpired}}" class="expired">已过期</text>
+                    <text wx:else class="unverified">未核验</text>
+                </view>
+                <view class="tiny muted school">{{student.school || '尚未填写学校'}} · {{student.verification}}</view>
+                <view class="edit-profile" bindtap="goProfile">编辑昵称与头像 ›</view>
+                <view class="verify-stats">
+                    <text class="verify-stat"><b>{{student.rating}}</b> 评分</text>
+                    <text class="verify-stat"><b>{{student.doneCount}}</b> 完成</text>
+                    <text class="verify-stat"><b>¥{{availableText}}</b> 已结算</text>
+                </view>
+            </view>
+        </view>
+
+        <view wx:if="{{student.verified}}" class="verified-banner">
+            <view class="verified-badge">✓</view>
+            <view class="grow">
+                <view class="verified-title">姓名与在校学籍已核验</view>
+                <view class="verified-desc">认证有效期至 {{expiresText || '长期有效'}}。认证信息仅用于平台审核。</view>
+            </view>
+        </view>
+
+        <view wx:elif="{{isPending}}" class="card verify-form">
+            <view class="form-title">学籍资料审核中</view>
+            <view class="form-desc">运营人员会登录学信网核验报告。审核期间仍可浏览任务，但不能提交报价。</view>
+            <view class="pending-note">通常会在 1 个工作日内完成；请勿重复提交。</view>
+        </view>
+
+        <view wx:else class="card verify-form">
+            <view class="form-title">完成在校学籍认证</view>
+            <view class="form-desc">提交学信网《教育部学籍在线验证报告》中的在线验证码。审核通过前可浏览任务，但不能报价。</view>
+            <view wx:if="{{isRejected && reviewNote}}" class="rejected-note">上次申请未通过：{{reviewNote}}</view>
+            <view wx:if="{{isExpired}}" class="pending-note">学籍认证已过期，请重新提交最新验证码。</view>
+
+            <view class="help-card" bindtap="showVerificationHelp">
+                <view class="help-icon">?</view>
+                <view class="grow">
+                    <view class="help-title">如何获取学信网验证码</view>
+                    <view class="help-desc">打开学信网 → 学籍在线验证报告 → 查看在线验证码</view>
+                </view>
+                <text class="help-arrow">›</text>
+            </view>
+
+            <view class="form-label">真实姓名</view>
+            <input class="verify-input" maxlength="40" value="{{realNameInput}}" data-field="realNameInput" bindinput="onFieldInput" placeholder="须与学籍报告一致" />
+            <view class="form-label">学校名称</view>
+            <input class="verify-input" maxlength="80" value="{{schoolInput}}" data-field="schoolInput" bindinput="onFieldInput" placeholder="例如：中国农业大学" />
+            <view class="form-row">
+                <view class="form-column">
+                    <view class="form-label">学号</view>
+                    <input class="verify-input" maxlength="40" value="{{studentNoInput}}" data-field="studentNoInput" bindinput="onFieldInput" placeholder="教务系统学号" />
+                </view>
+                <view class="form-column narrow">
+                    <view class="form-label">入学年份</view>
+                    <input class="verify-input" type="number" maxlength="4" value="{{enrollmentYearInput}}" data-field="enrollmentYearInput" bindinput="onFieldInput" placeholder="2024" />
+                </view>
+            </view>
+            <view class="form-label">专业（选填）</view>
+            <input class="verify-input" maxlength="80" value="{{majorInput}}" data-field="majorInput" bindinput="onFieldInput" placeholder="例如：动物医学" />
+            <view class="form-label">学信网在线验证码</view>
+            <input class="verify-input code-input" maxlength="32" value="{{chsiCodeInput}}" data-field="chsiCodeInput" bindinput="onFieldInput" placeholder="填写报告中的在线验证码" />
+
+            <checkbox-group bindchange="onAgreementChange">
+                <label class="agreement-row">
+                    <checkbox value="agreed" checked="{{agreed}}" color="#0f766e" />
+                    <text>我确认资料真实有效，并同意平台为学籍审核目的进行核验与留档。</text>
+                </label>
+            </checkbox-group>
+
+            <button class="btn-primary verify-submit" loading="{{submitting}}" disabled="{{submitting || !canSubmit}}" bindtap="submitVerification">提交审核</button>
+            <view class="privacy-tip">平台不会要求提供学信网密码，也不会将学籍资料展示给宠物主人。</view>
+        </view>
+
+        <view class="section">
+            <view class="card menu-card">
+                <view wx:for="{{menu}}" wx:key="label" class="menu-item" data-label="{{item.label}}" bindtap="onMenu">
+                    <view class="menu-icon">{{item.icon}}</view>
+                    <view class="grow">
+                        <view class="menu-label">{{item.label}}</view>
+                        <view class="tiny muted menu-desc">{{item.desc}}</view>
+                    </view>
+                    <text class="menu-arrow">›</text>
+                </view>
+            </view>
+        </view>
+
+        <view class="switch-owner-card" bindtap="switchOwner">
+            <view class="switch-owner-icon">⇄</view>
+            <view class="grow">
+                <view class="bold">切换回宠物主人端</view>
+                <view class="tiny switch-owner-desc">发布任务、查看报价与验收订单</view>
+            </view>
+            <text>›</text>
+        </view>
+
+        <view class="policy-note">仅限非医疗类室内照护 · 实名与 18 岁校验仍须由持牌服务商完成</view>
+    </block>
+</view>
+
+<tab-bar role="student" active="verify" />

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>上门喂宠 · 运营管理平台</title>
+    <link rel="icon" href="/admin/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/admin/styles.css">
+</head>
+<body>
+    <section id="login-screen" class="login-screen">
+        <div class="login-visual">
+            <div class="brand-mark">宠</div>
+            <div class="login-kicker">ZOO OPERATIONS</div>
+            <h1>让每一次上门照护<br>都有人负责。</h1>
+            <p>学籍审核、退款处置、用户管理与订单追踪，统一在一个运营工作台完成。</p>
+            <div class="login-points">
+                <span>审核留痕</span>
+                <span>账号风控</span>
+                <span>订单可查</span>
+            </div>
+        </div>
+        <div class="login-panel">
+            <form id="login-form" class="login-card">
+                <div class="mobile-brand">宠 · 运营台</div>
+                <span class="eyebrow">管理员登录</span>
+                <h2>进入运营管理平台</h2>
+                <p class="muted">使用服务端配置的 ADMIN_TOKEN。令牌只保存在当前浏览器会话中。</p>
+                <label class="field-label" for="admin-token">管理员令牌</label>
+                <input id="admin-token" class="text-input" type="password" autocomplete="off" placeholder="请输入 ADMIN_TOKEN" required>
+                <p id="login-error" class="form-error" hidden></p>
+                <button id="login-button" class="button button-primary button-block" type="submit">验证并进入</button>
+                <p class="login-footnote">生产环境应替换为管理员账号、RBAC、二次认证与访问审计。</p>
+            </form>
+        </div>
+    </section>
+
+    <div id="app-shell" class="app-shell" hidden>
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-mark small">宠</div>
+                <div>
+                    <strong>运营管理平台</strong>
+                    <small>Zoo Operations</small>
+                </div>
+            </div>
+            <nav class="sidebar-nav" aria-label="主导航">
+                <button class="nav-item active" data-view="overview"><span>▦</span>运营概览</button>
+                <button class="nav-item" data-view="dispatch"><span>⌖</span>派单对比</button>
+                <button class="nav-item" data-view="verifications"><span>✓</span>学籍审核</button>
+                <button class="nav-item" data-view="refunds"><span>↩</span>退款审核</button>
+                <button class="nav-item" data-view="users"><span>◎</span>用户管理</button>
+                <button class="nav-item" data-view="orders"><span>▤</span>订单管理</button>
+                <button class="nav-item" data-view="audits"><span>≡</span>审计日志</button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="operator-row">
+                    <div class="operator-avatar">管</div>
+                    <div><strong>运营管理员</strong><small>ADMIN_TOKEN</small></div>
+                </div>
+                <button id="logout-button" class="logout-button">退出登录</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <span id="page-eyebrow" class="eyebrow">运营工作台</span>
+                    <h1 id="page-title">运营概览</h1>
+                    <p id="page-subtitle">查看平台实时状态与待处理事项。</p>
+                </div>
+                <div class="topbar-actions">
+                    <span class="live-dot">实时数据</span>
+                    <button id="refresh-button" class="button button-ghost" type="button">刷新</button>
+                </div>
+            </header>
+            <section id="view-root" class="view-root" aria-live="polite"></section>
+        </main>
+    </div>
+
+    <div id="modal-backdrop" class="modal-backdrop" hidden>
+        <form id="modal-form" class="modal-card">
+            <span id="modal-eyebrow" class="eyebrow">审核操作</span>
+            <h2 id="modal-title">确认操作</h2>
+            <p id="modal-description" class="muted"></p>
+            <div id="modal-field-wrap" class="modal-field">
+                <label id="modal-field-label" class="field-label" for="modal-field">审核内容</label>
+                <input id="modal-field" class="text-input" type="text">
+                <textarea id="modal-textarea" class="text-input textarea" rows="4"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button id="modal-cancel" class="button button-ghost" type="button">取消</button>
+                <button id="modal-confirm" class="button button-primary" type="submit">确认</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+    <script src="/admin/app.js" defer></script>
+</body>
+</html>

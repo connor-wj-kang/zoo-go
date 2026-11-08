@@ -1,0 +1,71 @@
+<nav-bar title="{{navTitle}}" back />
+
+<view class="page page-no-tab student-task-page">
+    <view wx:if="{{loading}}" class="loading-wrap">正在加载任务详情…</view>
+
+    <block wx:elif="{{task}}">
+        <view class="card pet-summary">
+            <image class="pet-summary-img" src="{{task.pet.image}}" mode="aspectFill" />
+            <view class="grow">
+                <view class="pet-name">{{task.pet.name}} · {{task.pet.breed}} · {{task.pet.age}}</view>
+                <view class="pet-tags">
+                    <text class="pet-tag" wx:for="{{task.pet.flags}}" wx:key="*this">{{item}}</text>
+                </view>
+                <view class="tiny muted pet-note">{{task.pet.note}}</view>
+            </view>
+        </view>
+
+        <view class="task-facts">
+            <view class="fact"><text class="fact-icon">◷</text><view><view class="tiny muted">服务时间</view><view class="fact-value">{{task.serviceDateText}} {{task.timeWindow}}</view></view></view>
+            <view class="fact"><text class="fact-icon">⌖</text><view><view class="tiny muted">服务位置</view><view class="fact-value">{{task.community}}<text wx:if="{{task.distanceText}}"> · 约 {{task.distanceText}}km</text></view></view></view>
+            <view class="fact"><text class="fact-icon">✎</text><view><view class="tiny muted">服务项目</view><view class="fact-value">{{task.servicesInline}}</view></view></view>
+            <view class="fact"><text class="fact-icon">¥</text><view><view class="tiny muted">主人预算</view><view class="fact-value price">≤ ¥{{task.budgetText}}</view></view></view>
+        </view>
+
+        <view class="card checklist-card">
+            <view class="form-label">照护清单</view>
+            <view class="check-item" wx:for="{{task.checklist}}" wx:key="*this"><text class="check-mark">✓</text><text>{{item}}</text></view>
+            <view wx:if="{{task.note}}" class="task-note">{{task.note}}</view>
+        </view>
+
+        <view class="privacy-note"><text class="privacy-icon">◉</text> 成交前仅展示小区，不展示详细门牌；成交付款后地址短期开放。</view>
+
+        <view wx:if="{{task.status === 'BIDDING'}}" class="card quote-card">
+            <view class="between quote-head">
+                <view>
+                    <view class="form-label quote-label">{{task.myBid ? '我的报价' : '我的保密报价'}}</view>
+                    <view class="tiny muted">其他服务者无法看到你的金额</view>
+                </view>
+                <view class="deadline-badge">剩余 {{task.remainingText}}</view>
+            </view>
+
+            <view class="price-editor">
+                <view class="price-step" data-delta="-2" bindtap="changePrice">−</view>
+                <view class="price-input-wrap">
+                    <text class="price-yen">¥</text>
+                    <input class="price-input" type="digit" value="{{price}}" bindinput="onPriceInput" />
+                </view>
+                <view class="price-step" data-delta="2" bindtap="changePrice">＋</view>
+            </view>
+
+            <view class="earnings-row">
+                <view class="earning-cell"><view class="tiny muted">平台服务费（10%）</view><view class="earning-value">− ¥{{feeText}}</view></view>
+                <view class="earning-divider"></view>
+                <view class="earning-cell"><view class="tiny muted">预计实收</view><view class="earning-value receive">¥{{receiveText}}</view></view>
+            </view>
+
+            <view class="message-label">给主人的说明（选填）</view>
+            <textarea class="textarea message-input" maxlength="200" value="{{message}}" bindinput="onMessageInput" placeholder="例如：本小区附近，可提前 10 分钟到…" />
+
+            <button class="btn-primary quote-submit" loading="{{submitting}}" disabled="{{submitting || !canQuote}}" bindtap="submitBid">{{quoteTitle}}</button>
+            <view class="tiny muted quote-rule">报价不得超过主人预算，低于 ¥20 无效；每条有效报价最多修改 2 次。</view>
+        </view>
+
+        <view wx:else class="card done-card">
+            <view class="done-title">该任务当前不可报价</view>
+            <view class="tiny muted done-desc">任务状态：{{task.statusText}}。{{task.myBid ? '你的报价已提交，请等待主人选择。' : '可以返回大厅查看其他任务。'}}</view>
+            <button wx:if="{{task.orderId}}" class="btn-primary done-button" bindtap="goFulfill">查看我的履约订单</button>
+            <button class="btn-ghost done-button" bindtap="goHall">返回任务大厅</button>
+        </view>
+    </block>
+</view>

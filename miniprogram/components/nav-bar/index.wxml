@@ -1,0 +1,11 @@
+<view class="nav-shell" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-inner">
+        <view wx:if="{{back}}" class="nav-back" bindtap="onBack" aria-label="返回">‹</view>
+        <view class="nav-title {{back ? 'nav-title-center' : ''}}">{{title}}</view>
+        <view class="nav-right" bindtap="onRight">
+            <text wx:if="{{rightIcon}}" class="nav-right-icon">{{rightIcon}}</text>
+            <text wx:if="{{rightText}}" class="nav-right-text">{{rightText}}</text>
+        </view>
+    </view>
+</view>
+<view style="height: {{statusBarHeight + 46}}px;"></view>

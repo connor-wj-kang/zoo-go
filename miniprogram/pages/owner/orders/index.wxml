@@ -1,0 +1,53 @@
+<nav-bar title="我的订单" right-text="发布" bind:right="goPublish" />
+
+<view class="page orders-page">
+    <view class="filter-scroll">
+        <view
+            wx:for="{{filters}}"
+            wx:key="value"
+            class="chip filter-chip {{item.selected ? 'chip-active' : ''}}"
+            data-value="{{item.value}}"
+            bindtap="selectFilter"
+        >{{item.label}}</view>
+    </view>
+
+    <view wx:if="{{loading}}" class="loading-wrap">正在加载订单…</view>
+    <view wx:elif="{{error}}" class="card empty">
+        {{error}}
+        <button class="btn-secondary retry" bindtap="retry">重新加载</button>
+    </view>
+    <view wx:elif="{{tasks.length}}" class="order-list">
+        <view
+            wx:for="{{tasks}}"
+            wx:key="id"
+            class="card order-card"
+            data-id="{{item.id}}"
+            data-status="{{item.status}}"
+            data-order-id="{{item.orderId}}"
+            bindtap="goTask"
+        >
+            <image class="pet-thumb" src="{{item.pet.image}}" mode="aspectFill" />
+            <view class="grow order-main">
+                <view class="between">
+                    <text class="order-name">{{item.pet.name}} · {{item.serviceTitle}}</text>
+                    <text class="status-pill {{item.statusClass}}">{{item.statusText}}</text>
+                </view>
+                <view class="order-time">◷ {{item.serviceDateText}} {{item.timeWindow}}</view>
+                <view class="between order-foot">
+                    <text wx:if="{{item.priceFen}}" class="price order-price">成交 ¥{{item.priceText}}</text>
+                    <text wx:else class="price order-price">预算 ≤ ¥{{item.budgetText}}</text>
+                    <text wx:if="{{item.status === 'BIDDING'}}" class="bid-count">{{item.bidCount}} 人已报价 ›</text>
+                    <text wx:else class="tiny muted">查看详情 ›</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view wx:else class="empty-state">
+        <view class="empty-illustration">🐾</view>
+        <view class="bold">暂无订单</view>
+        <view class="tiny muted empty-desc">发布任务后，学生的报价会出现在这里</view>
+        <button class="btn-primary empty-button" bindtap="goPublish">发布喂宠任务</button>
+    </view>
+</view>
+
+<tab-bar role="owner" active="orders" />

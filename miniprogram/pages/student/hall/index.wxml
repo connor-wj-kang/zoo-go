@@ -1,0 +1,69 @@
+<nav-bar title="任务大厅" right-text="主人端" bind:right="goOwner" />
+
+<view class="page hall-page">
+    <view wx:if="{{loading}}" class="loading-wrap">正在寻找附近任务…</view>
+
+    <view wx:elif="{{error}}" class="card empty">
+        {{error}}
+        <button class="btn-secondary retry" bindtap="retry">重新加载</button>
+        <button wx:if="{{locationDenied}}" class="btn-secondary retry" bindtap="openLocationSetting">打开定位权限</button>
+    </view>
+
+    <block wx:else>
+        <view class="hall-hero">
+            <view class="hall-kicker">⌖ {{student.serviceRadiusKm}} 公里接单范围 · 海淀区马连洼街道</view>
+            <view class="hall-title">附近 {{availableCount}} 个喂宠任务</view>
+            <view class="hall-subtitle">按预算与距离排序，报价对其他服务者保密</view>
+            <view class="hall-stat-row">
+                <view class="hall-stat"><text class="hall-stat-value">{{student.doneCount}}</text><text class="hall-stat-label">累计服务</text></view>
+                <view class="hall-stat-divider"></view>
+                <view class="hall-stat"><text class="hall-stat-value">{{student.rating}}</text><text class="hall-stat-label">服务评分</text></view>
+                <view class="hall-stat-divider"></view>
+                <view class="hall-stat"><text class="hall-stat-value">{{student.serviceRadiusKm}}km</text><text class="hall-stat-label">接单半径</text></view>
+            </view>
+        </view>
+
+        <view class="safety-note {{student.verified ? '' : 'safety-note-warning'}}" bindtap="goVerify">
+            <text class="safety-icon">{{student.verified ? '✓' : '!'}}</text>
+            {{student.verified ? '实名与在校状态已核验，成交前隐藏主人门牌' : '尚未完成学籍认证，点击去认证后即可报价'}}
+        </view>
+
+        <view class="section">
+            <view class="section-head">
+                <text class="section-title">可报价任务</text>
+                <text class="tiny muted">剩余时间实时更新</text>
+            </view>
+            <view wx:if="{{tasks.length}}" class="hall-task-list">
+                <view class="card hall-task" wx:for="{{tasks}}" wx:key="id" data-id="{{item.id}}" bindtap="goTask">
+                    <view class="hall-task-head">
+                        <image class="hall-pet" src="{{item.pet.image}}" mode="aspectFill" />
+                        <view class="grow">
+                            <view class="between">
+                                <text class="hall-task-name">{{item.pet.name}} · {{item.pet.breed}} · {{item.pet.age}}</text>
+                                <text class="status-pill status-primary">{{item.remainingText}}</text>
+                            </view>
+                            <view class="hall-task-location">⌖ {{item.community}}<text wx:if="{{item.distanceText}}"> · 约 {{item.distanceText}}km</text></view>
+                        </view>
+                    </view>
+                    <view class="hall-meta-row">
+                        <view class="hall-meta"><text class="tiny muted">服务时间</text><text class="small">{{item.serviceDateText}} {{item.timeWindow}}</text></view>
+                        <view class="hall-meta hall-meta-right"><text class="tiny muted">{{item.fixedMode ? '一口价' : '预算上限'}}</text><text class="hall-price">¥{{item.budgetText}}</text></view>
+                    </view>
+                    <view class="hall-services">{{item.servicesText}}</view>
+                    <view class="between hall-task-foot">
+                        <text class="tiny muted">预计到手 ¥{{item.suggestedText}} 起</text>
+                        <text wx:if="{{item.myBidText}}" class="my-bid">已报价 ¥{{item.myBidText}} · 可修改</text>
+                        <text wx:else class="quote-link">查看并报价 ›</text>
+                    </view>
+                </view>
+            </view>
+            <view wx:else class="empty-state">
+                <view class="empty-emoji">🐾</view>
+                <view class="bold">附近暂无任务</view>
+                <view class="tiny muted">主人发布新任务后会出现在这里</view>
+            </view>
+        </view>
+    </block>
+</view>
+
+<tab-bar role="student" active="hall" />

@@ -1,0 +1,96 @@
+.orders-page {
+    padding-top: 22rpx;
+}
+
+.filter-scroll {
+    display: flex;
+    gap: 15rpx;
+    padding: 2rpx 0 24rpx;
+}
+
+.filter-chip {
+    min-width: 130rpx;
+    text-align: center;
+}
+
+.order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18rpx;
+}
+
+.order-card {
+    display: flex;
+    gap: 20rpx;
+    padding: 24rpx;
+}
+
+.order-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.order-name {
+    max-width: 330rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 28rpx;
+    font-weight: 800;
+}
+
+.order-time {
+    margin-top: 8rpx;
+    color: #6b7280;
+    font-size: 22rpx;
+}
+
+.order-foot {
+    margin-top: 14rpx;
+}
+
+.order-price {
+    font-size: 25rpx;
+}
+
+.bid-count {
+    color: #0d9488;
+    font-size: 22rpx;
+    font-weight: 600;
+}
+
+.retry {
+    width: 260rpx;
+    min-height: 70rpx;
+    margin: 24rpx auto 0;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 150rpx;
+    text-align: center;
+}
+
+.empty-illustration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150rpx;
+    height: 150rpx;
+    margin-bottom: 24rpx;
+    border-radius: 50%;
+    background: #ffffff;
+    font-size: 62rpx;
+}
+
+.empty-desc {
+    margin-top: 10rpx;
+}
+
+.empty-button {
+    width: 360rpx;
+    margin-top: 34rpx;
+}

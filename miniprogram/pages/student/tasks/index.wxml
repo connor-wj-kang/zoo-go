@@ -1,0 +1,45 @@
+<nav-bar title="我的任务" />
+
+<view class="page student-tasks-page">
+    <view class="filter-row">
+        <view
+            wx:for="{{filters}}"
+            wx:key="value"
+            class="chip filter-chip {{filter === item.value ? 'chip-active' : ''}}"
+            data-value="{{item.value}}"
+            bindtap="selectFilter"
+        >{{item.label}}</view>
+    </view>
+
+    <view wx:if="{{loading}}" class="loading-wrap">正在加载我的任务…</view>
+
+    <view wx:elif="{{tasks.length}}" class="task-list">
+        <view class="card student-task-card" wx:for="{{tasks}}" wx:key="id" data-id="{{item.id}}" bindtap="openTask">
+            <view class="between task-head">
+                <view class="row task-name-row">
+                    <image class="task-pet" src="{{item.pet.image}}" mode="aspectFill" />
+                    <view>
+                        <view class="bold">{{item.pet.name}} · {{item.serviceTitle}}</view>
+                        <view class="tiny muted task-time">{{item.serviceDateText}} {{item.timeWindow}}</view>
+                    </view>
+                </view>
+                <text class="status-pill {{item.statusClass}}">{{item.statusText}}</text>
+            </view>
+            <view class="task-progress">
+                <view class="progress-dot"></view>
+                <view wx:if="{{item.myBidText}}" class="tiny muted">你的报价 <text class="price">¥{{item.myBidText}}</text> · {{item.myBidStatusText}}</view>
+                <view wx:else class="tiny muted">{{item.orderId ? '主人已选择你，请按时履约' : '报价已提交，等待主人选择'}}</view>
+                <text class="progress-arrow">›</text>
+            </view>
+        </view>
+    </view>
+
+    <view wx:else class="empty-state">
+        <view class="empty-emoji">🐾</view>
+        <view class="bold">暂无任务</view>
+        <view class="tiny muted empty-text">去任务大厅看看附近的喂宠需求吧</view>
+        <button class="btn-primary go-hall" bindtap="goHall">去任务大厅</button>
+    </view>
+</view>
+
+<tab-bar role="student" active="tasks" />

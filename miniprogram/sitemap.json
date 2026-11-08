@@ -1,0 +1,4 @@
+{
+    "desc": "上门喂宠区域竞价平台",
+    "rules": [{"action": "allow", "page": "*"}]
+}

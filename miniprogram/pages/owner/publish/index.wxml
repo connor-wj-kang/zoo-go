@@ -1,0 +1,178 @@
+<nav-bar title="发布喂宠任务" back />
+
+<view class="page page-no-tab publish-page">
+    <view wx:if="{{loading}}" class="loading-wrap">正在加载发单配置…</view>
+
+    <block wx:else>
+        <view class="intro-tip">
+            <text class="intro-icon">✦</text>
+            <text>填写预算与照护清单，附近已核验学生会收到任务并保密报价。</text>
+        </view>
+
+        <view class="card form-card">
+            <view class="form-label">选择宠物</view>
+            <view wx:if="{{!pets.length}}" class="empty-pet" bindtap="goAddPet">
+                <view class="empty-pet-icon">＋</view>
+                <view class="grow">
+                    <view class="bold">先添加宠物档案</view>
+                    <view class="tiny muted">填写名字、品种和照护提醒后即可发单</view>
+                </view>
+                <text class="empty-pet-arrow">›</text>
+            </view>
+            <view
+                wx:for="{{pets}}"
+                wx:key="id"
+                class="pet-option {{petId === item.id ? 'pet-option-active' : ''}}"
+                data-value="{{item.id}}"
+                bindtap="selectPet"
+            >
+                <image class="pet-option-img" src="{{item.image}}" mode="aspectFill" />
+                <view class="grow">
+                    <view class="bold">{{item.name}}</view>
+                    <view class="tiny muted">{{item.breed}} · {{item.age}}</view>
+                </view>
+                <view class="check-dot {{petId === item.id ? 'check-dot-active' : ''}}">✓</view>
+            </view>
+        </view>
+
+        <view class="card form-card">
+            <view class="form-label">服务项目（可多选）</view>
+            <view class="chips">
+                <view
+                    wx:for="{{serviceOptions}}"
+                    wx:key="value"
+                    class="chip {{item.selected ? 'chip-active' : ''}}"
+                    data-value="{{item.value}}"
+                    bindtap="toggleService"
+                >{{item.value}}</view>
+            </view>
+        </view>
+
+        <view class="card form-card">
+            <view class="form-label">服务时间 <text class="label-hint">09:00–21:00</text></view>
+            <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="date-scroll">
+                <view class="date-row">
+                    <view
+                        wx:for="{{dayOptions}}"
+                        wx:key="value"
+                        class="chip date-chip {{item.selected ? 'chip-active' : ''}}"
+                        data-value="{{item.value}}"
+                        bindtap="selectDay"
+                    >{{item.label}}</view>
+                </view>
+            </scroll-view>
+            <view class="chips time-chips">
+                <view
+                    wx:for="{{timeOptions}}"
+                    wx:key="value"
+                    class="chip {{item.selected ? 'chip-active' : ''}}"
+                    data-value="{{item.value}}"
+                    bindtap="selectTime"
+                >{{item.value}}</view>
+            </view>
+        </view>
+
+        <view class="card form-card">
+            <view class="form-label">定价方式</view>
+            <view class="mode-grid">
+                <view class="mode-card {{mode === 'bid' ? 'mode-active' : ''}}" data-value="bid" bindtap="selectMode">
+                    <view class="bold">反向竞价</view>
+                    <view class="tiny muted mode-desc">学生保密报价，你择优</view>
+                </view>
+                <view class="mode-card {{mode === 'fixed' ? 'mode-active' : ''}}" data-value="fixed" bindtap="selectMode">
+                    <view class="bold">一口价</view>
+                    <view class="tiny muted mode-desc">学生抢候选，你确认</view>
+                </view>
+            </view>
+
+            <view class="budget-row">
+                <view>
+                    <view class="small muted">{{mode === 'bid' ? '预算上限' : '成交价'}}</view>
+                    <view class="tiny muted">主人支付总价，不额外加价</view>
+                </view>
+                <view class="stepper">
+                    <view class="stepper-btn" data-delta="-5" bindtap="changeBudget">−</view>
+                    <view class="stepper-value"><text class="stepper-yen">¥</text>{{budget}}</view>
+                    <view class="stepper-btn" data-delta="5" bindtap="changeBudget">＋</view>
+                </view>
+            </view>
+
+            <view class="deadline-label">竞价截止</view>
+            <view class="chips">
+                <view
+                    wx:for="{{deadlineOptions}}"
+                    wx:key="minutes"
+                    class="chip {{item.selected ? 'chip-active' : ''}}"
+                    data-value="{{item.minutes}}"
+                    bindtap="selectDeadline"
+                >{{item.label}}</view>
+            </view>
+        </view>
+
+        <view class="card form-card">
+            <view class="form-label">服务小区</view>
+            <view class="chips">
+                <view
+                    wx:for="{{communityOptions}}"
+                    wx:key="value"
+                    class="chip {{item.selected ? 'chip-active' : ''}}"
+                    data-value="{{item.value}}"
+                    bindtap="selectCommunity"
+                >{{item.value}}</view>
+            </view>
+            <view class="form-label address-label">地图定位点</view>
+            <view class="location-picker {{locationName ? 'location-picker-active' : ''}}" bindtap="chooseServiceLocation">
+                <view class="location-pin">⌖</view>
+                <view class="grow">
+                    <view class="small bold">{{locationName || '点击选择服务地址位置'}}</view>
+                    <view class="tiny muted location-hint">学生端仅展示距离，详细门牌付款后才开放</view>
+                </view>
+                <text class="location-action">{{locationName ? '重新选择' : '去选择'}}</text>
+            </view>
+            <view class="form-label address-label">详细门牌地址</view>
+            <input
+                class="address-input"
+                maxlength="120"
+                value="{{addressDetail}}"
+                bindinput="onAddressInput"
+                placeholder="例如：3 号楼 2 单元 401"
+            />
+            <view class="address-note">⌖ 详细门牌仅在中选并付款后向服务学生短期开放</view>
+        </view>
+
+        <view class="card form-card">
+            <view class="form-label">照护清单与备注</view>
+            <textarea
+                class="textarea note-input"
+                maxlength="300"
+                value="{{note}}"
+                bindinput="onNoteInput"
+                placeholder="例如：每餐 1 勺半狗粮，换水，拍 2 张照片…"
+            />
+            <view class="tiny muted note-count">{{note.length}} / 300</view>
+        </view>
+
+        <view class="card form-card safety-card">
+            <view class="safety-row">
+                <view class="grow">
+                    <view class="small bold">宠物无攻击性，已完成安全确认</view>
+                    <view class="tiny muted">如存在咬人、强应激或伤病，请先联系客服</view>
+                </view>
+                <switch color="#F97316" checked="{{safetyConfirmed}}" bindchange="toggleSafety" />
+            </view>
+            <view class="divider"></view>
+            <view class="agreement-row" bindtap="toggleAgreement">
+                <view class="agreement-box {{agreementAccepted ? 'agreement-checked' : ''}}">{{agreementAccepted ? '✓' : ''}}</view>
+                <text class="tiny muted">我已阅读并同意《服务协议》《隐私政策》与退款规则</text>
+            </view>
+        </view>
+    </block>
+</view>
+
+<view wx:if="{{!loading}}" class="publish-footer">
+    <view class="footer-price">
+        <text class="tiny muted">{{mode === 'bid' ? '预算上限' : '一口价'}}</text>
+        <text class="footer-money">¥{{budget}}</text>
+    </view>
+    <button class="btn-primary footer-submit" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submit">发布任务</button>
+</view>

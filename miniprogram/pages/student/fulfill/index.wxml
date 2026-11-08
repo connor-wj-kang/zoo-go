@@ -1,0 +1,85 @@
+<nav-bar title="上门履约" back />
+
+<view class="page page-no-tab fulfill-page">
+    <view wx:if="{{loading}}" class="loading-wrap">正在加载履约订单…</view>
+
+    <block wx:elif="{{task}}">
+        <view class="fulfill-hero">
+            <view class="between">
+                <view>
+                    <view class="fulfill-kicker">今日服务</view>
+                    <view class="fulfill-title">{{task.pet.name}} 的上门照护</view>
+                </view>
+                <text class="status-pill {{task.statusClass}}">{{task.statusText}}</text>
+            </view>
+            <view class="fulfill-time">◷ {{task.serviceDateText}} {{task.timeWindow}}</view>
+            <view class="fulfill-address">⌖ {{task.addressDetail || task.addressMasked}}</view>
+            <view class="fulfill-actions">
+                <view class="hero-action" bindtap="callOwner">☎ 联系主人</view>
+                <view class="hero-action" bindtap="reportIssue">⚑ 上报异常</view>
+            </view>
+        </view>
+
+        <view class="card checklist-card">
+            <view class="between">
+                <text class="form-label checklist-title">照护清单</text>
+                <text class="tiny muted">{{task.checklist.length}} 项</text>
+            </view>
+            <view class="check-row" wx:for="{{task.checklist}}" wx:key="*this">
+                <view class="check-circle">✓</view>
+                <text>{{item}}</text>
+            </view>
+            <view wx:if="{{task.note}}" class="owner-note">主人备注：{{task.note}}</view>
+        </view>
+
+        <view wx:if="{{task.status === 'BOOKED'}}" class="section">
+            <view class="card checkin-card">
+                <view class="checkin-icon">⌖</view>
+                <view class="checkin-title">到达服务地址后请先签到</view>
+                <view class="tiny muted checkin-desc">签到时间与任务时段会进入履约记录，异常情况请先联系主人。</view>
+                <button class="btn-primary checkin-button" loading="{{actionLoading}}" disabled="{{actionLoading}}" bindtap="checkIn">到场签到</button>
+            </view>
+        </view>
+
+        <view wx:if="{{task.status === 'IN_SERVICE'}}" class="section">
+            <view class="section-head"><text class="section-title">上传服务凭证</text><text class="tiny muted">至少 2 张</text></view>
+            <view class="card evidence-upload">
+                <view class="photo-grid">
+                    <view class="photo-cell" wx:for="{{photos}}" wx:key="*this">
+                        <image class="upload-photo" src="{{item}}" mode="aspectFill" data-src="{{item}}" bindtap="previewPhoto" />
+                        <view class="remove-photo" data-index="{{index}}" catchtap="removePhoto">×</view>
+                    </view>
+                    <view wx:if="{{photos.length < 4}}" class="add-photo" bindtap="choosePhotos">
+                        <text class="add-photo-plus">＋</text>
+                        <text class="tiny muted">拍照 / 相册</text>
+                    </view>
+                </view>
+                <view class="tiny muted upload-tip">照片请避开他人面部、证件、门锁密码等敏感信息。</view>
+                <button class="btn-primary complete-button" loading="{{actionLoading}}" disabled="{{actionLoading}}" bindtap="complete">完成清单并提交完工</button>
+            </view>
+        </view>
+
+        <view wx:if="{{task.status === 'PENDING_CONFIRM' || task.status === 'COMPLETED'}}" class="section">
+            <view class="section-head"><text class="section-title">已提交的凭证</text><text class="tiny muted">{{task.photos.length}} 张</text></view>
+            <view class="card">
+                <view class="photo-grid">
+                    <image
+                        wx:for="{{task.photos}}"
+                        wx:key="*this"
+                        class="upload-photo"
+                        src="{{item}}"
+                        mode="aspectFill"
+                        data-src="{{item}}"
+                        bindtap="previewEvidence"
+                    />
+                </view>
+                <view class="waiting-box">
+                    <view class="waiting-title">{{task.status === 'COMPLETED' ? '主人已验收完成' : '等待主人验收'}}</view>
+                    <view class="tiny muted">完成后收益将进入已结算金额。</view>
+                </view>
+            </view>
+        </view>
+
+        <view class="tip-card">证据留存说明：签到、清单与照片仅用于订单履约、售后与争议处理，平台按最小必要原则限权访问。</view>
+    </block>
+</view>

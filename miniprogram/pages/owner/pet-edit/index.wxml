@@ -1,0 +1,70 @@
+<nav-bar title="添加宠物档案" back />
+
+<view class="page pet-edit-page">
+    <view class="pet-intro">
+        <view class="pet-intro-title">让服务学生提前认识毛孩子</view>
+        <view class="pet-intro-desc">饮食、性格和注意事项会随任务展示，详细门牌不会公开。</view>
+    </view>
+
+    <view class="card form-card">
+        <view class="photo-row" bindtap="choosePhoto">
+            <image wx:if="{{imagePath}}" class="pet-photo" src="{{imagePath}}" mode="aspectFill" />
+            <view wx:else class="pet-photo pet-photo-empty">＋</view>
+            <view class="grow">
+                <view class="bold">宠物照片</view>
+                <view class="tiny muted photo-hint">选填，支持 JPG / PNG / WebP / GIF，最大 8MB</view>
+            </view>
+            <text class="photo-arrow">›</text>
+        </view>
+
+        <view class="field-divider"></view>
+
+        <view class="form-label">名字 <text class="required">*</text></view>
+        <input class="field-input" maxlength="30" value="{{name}}" bindinput="onNameInput" placeholder="例如：豆豆" />
+
+        <view class="form-label field-gap">宠物类型</view>
+        <view class="chips">
+            <view
+                wx:for="{{speciesOptions}}"
+                wx:key="value"
+                class="chip {{item.selected ? 'chip-active' : ''}}"
+                data-value="{{item.value}}"
+                bindtap="selectSpecies"
+            >{{item.value}}</view>
+        </view>
+
+        <view class="field-grid">
+            <view class="field-cell">
+                <view class="form-label field-gap">品种</view>
+                <input class="field-input" maxlength="30" value="{{breed}}" bindinput="onBreedInput" placeholder="金毛 / 英短" />
+            </view>
+            <view class="field-cell">
+                <view class="form-label field-gap">年龄</view>
+                <input class="field-input" maxlength="20" value="{{age}}" bindinput="onAgeInput" placeholder="3 岁" />
+            </view>
+        </view>
+
+        <view class="form-label field-gap">性格与照护提醒</view>
+        <view class="chips">
+            <view
+                wx:for="{{flagOptions}}"
+                wx:key="value"
+                class="chip {{item.selected ? 'chip-active' : ''}}"
+                data-value="{{item.value}}"
+                bindtap="toggleFlag"
+            >{{item.value}}</view>
+        </view>
+
+        <view class="form-label field-gap">补充说明</view>
+        <textarea
+            class="textarea note-input"
+            maxlength="300"
+            value="{{note}}"
+            bindinput="onNoteInput"
+            placeholder="例如：每餐一勺半，喝凉白开，不咬人但怕吹风机…"
+        />
+        <view class="tiny muted note-count">{{note.length}} / 300</view>
+    </view>
+
+    <button class="btn-primary submit-button" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submit">保存宠物档案</button>
+</view>

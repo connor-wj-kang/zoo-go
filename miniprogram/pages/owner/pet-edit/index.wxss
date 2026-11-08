@@ -1,0 +1,120 @@
+.pet-edit-page {
+    padding-top: 20rpx;
+    padding-bottom: 50rpx;
+}
+
+.pet-intro {
+    padding: 24rpx 26rpx;
+    border-radius: 24rpx;
+    color: #9a3412;
+    background: #fff7ed;
+}
+
+.pet-intro-title {
+    font-size: 27rpx;
+    font-weight: 800;
+}
+
+.pet-intro-desc {
+    margin-top: 7rpx;
+    color: #b45309;
+    font-size: 21rpx;
+    line-height: 1.55;
+}
+
+.form-card {
+    margin-top: 22rpx;
+}
+
+.photo-row {
+    display: flex;
+    align-items: center;
+    gap: 20rpx;
+}
+
+.pet-photo {
+    width: 122rpx;
+    height: 122rpx;
+    flex-shrink: 0;
+    border-radius: 28rpx;
+    background: #f3f4f6;
+}
+
+.pet-photo-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2rpx dashed #fdba74;
+    color: #ea580c;
+    background: #fff7ed;
+    font-size: 44rpx;
+}
+
+.photo-hint {
+    margin-top: 8rpx;
+    line-height: 1.45;
+}
+
+.photo-arrow {
+    color: #9ca3af;
+    font-size: 40rpx;
+}
+
+.field-divider {
+    height: 1rpx;
+    margin: 26rpx 0;
+    background: #f0f1f3;
+}
+
+.form-label {
+    margin-bottom: 12rpx;
+    font-size: 26rpx;
+    font-weight: 700;
+}
+
+.field-gap {
+    margin-top: 28rpx;
+}
+
+.required {
+    color: #ea580c;
+}
+
+.field-input {
+    height: 82rpx;
+    padding: 0 22rpx;
+    border: 1rpx solid #e5e7eb;
+    border-radius: 18rpx;
+    background: #fafafa;
+    font-size: 27rpx;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18rpx;
+}
+
+.field-cell {
+    min-width: 0;
+}
+
+.note-input {
+    width: 100%;
+    min-height: 190rpx;
+    padding: 20rpx;
+    border: 1rpx solid #e5e7eb;
+    border-radius: 18rpx;
+    background: #fafafa;
+    font-size: 26rpx;
+    line-height: 1.6;
+}
+
+.note-count {
+    margin-top: 8rpx;
+    text-align: right;
+}
+
+.submit-button {
+    margin-top: 30rpx;
+}

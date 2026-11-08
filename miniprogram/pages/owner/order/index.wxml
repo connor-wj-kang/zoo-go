@@ -1,0 +1,122 @@
+<nav-bar title="订单详情" back />
+
+<view class="page page-no-tab order-page">
+    <view wx:if="{{loading}}" class="loading-wrap">正在加载订单详情…</view>
+
+    <block wx:elif="{{task}}">
+        <view class="order-heading">
+            <view class="grow">
+                <view class="order-title">{{task.pet.name}} 的上门喂养</view>
+                <view class="tiny muted order-subtitle">订单号 {{task.order.id}}</view>
+            </view>
+            <text class="status-pill {{task.statusClass}}">{{task.statusText}}</text>
+        </view>
+
+        <view class="card timeline-card">
+            <view class="timeline" wx:for="{{timeline}}" wx:key="key">
+                <view class="timeline-node">
+                    <view class="step-dot {{item.done ? 'step-dot-done' : ''}} {{item.current ? 'step-dot-current' : ''}}">{{item.done ? '✓' : index + 1}}</view>
+                    <view class="step-label {{item.done ? 'step-label-done' : ''}}">{{item.label}}</view>
+                </view>
+                <view wx:if="{{!item.isLast}}" class="step-line {{item.done ? 'step-line-done' : ''}}"></view>
+            </view>
+        </view>
+
+        <view wx:if="{{task.refund}}" class="card refund-card">
+            <view class="between refund-head">
+                <text class="bold">退款申请</text>
+                <text class="status-pill {{task.refundStatusClass}}">{{task.refundStatusText}}</text>
+            </view>
+            <view class="info-line"><text class="muted">退款金额</text><text class="price">¥{{task.refundAmountText}}</text></view>
+            <view class="info-line"><text class="muted">申请原因</text><text class="info-value">{{task.refund.reason}}</text></view>
+            <view class="tiny muted refund-note">退款申请提交后由平台审核；审核通过后将原路退回微信支付账户。</view>
+        </view>
+
+        <view wx:if="{{task.winner}}" class="card student-card">
+            <view class="student-row">
+                <image class="avatar" src="{{task.winner.avatar}}" mode="aspectFill" />
+                <view class="grow">
+                    <view class="row student-name"><text class="bold">{{task.winner.name}}</text><text class="verified">已核验</text></view>
+                    <view class="tiny muted">评分 {{task.winner.rating}} · 完成 {{task.winner.doneCount}} 单</view>
+                </view>
+                <view class="call-button" bindtap="callStudent">☎</view>
+            </view>
+            <view wx:if="{{task.addressDetail}}" class="address-box" bindtap="copyAddress">
+                <view class="row address-title"><text>⌖</text><text class="bold">{{task.addressDetail}}</text></view>
+                <view class="tiny muted address-note">仅向中选学生开放，访问留痕。点击复制地址。</view>
+            </view>
+            <view wx:if="{{task.status === 'BOOKED'}}" class="service-hint">学生将在预约时段上门，请保持电话畅通。</view>
+        </view>
+
+        <view wx:if="{{task.photos.length}}" class="section">
+            <view class="section-head"><text class="section-title">服务凭证</text><text class="tiny muted">共 {{task.photos.length}} 张</text></view>
+            <view class="card evidence-card">
+                <view class="photo-grid">
+                    <image
+                        wx:for="{{task.photos}}"
+                        wx:key="*this"
+                        class="evidence-photo"
+                        src="{{item}}"
+                        mode="aspectFill"
+                        data-src="{{item}}"
+                        bindtap="previewPhoto"
+                    />
+                </view>
+                <view class="tiny muted evidence-note">已完成：{{task.servicesInline}}　✓ 到场签到 ✓ 清单</view>
+            </view>
+        </view>
+
+        <view class="section">
+            <view class="section-head"><text class="section-title">服务信息</text></view>
+            <view class="card info-card">
+                <view class="info-line"><text class="muted">预约时间</text><text>{{task.serviceDateText}} {{task.timeWindow}}</text></view>
+                <view class="info-line"><text class="muted">服务项目</text><text class="info-value">{{task.servicesInline}}</text></view>
+                <view class="info-line"><text class="muted">服务小区</text><text>{{task.community}}</text></view>
+                <view class="info-line checklist-line"><text class="muted">照护清单</text><view class="checklist">{{task.checklist}}</view></view>
+                <view wx:if="{{task.note}}" class="note-box">{{task.note}}</view>
+            </view>
+        </view>
+
+        <view class="section">
+            <view class="section-head"><text class="section-title">费用明细</text></view>
+            <view class="card fee-card">
+                <view class="info-line"><text class="muted">服务成交价</text><text class="price">¥{{task.amountText}}</text></view>
+                <view wx:if="{{task.paymentStatusText}}" class="info-line"><text class="muted">支付状态</text><text>{{task.paymentStatusText}}</text></view>
+                <view class="info-line"><text class="muted">平台服务费（10%）</text><text>¥{{task.feeText}}</text></view>
+                <view class="divider"></view>
+                <view class="info-line total-line"><text class="bold">学生预计实收</text><text class="bold">¥{{task.studentReceiveText}}</text></view>
+                <view class="tiny muted fee-note">支付总价即主人成交价，学生实收已扣除平台服务费。</view>
+            </view>
+        </view>
+
+        <view class="section action-section">
+            <button wx:if="{{task.status === 'PENDING_CONFIRM'}}" class="btn-primary" loading="{{actionLoading}}" disabled="{{actionLoading}}" bindtap="confirmOrder">确认验收</button>
+            <button wx:if="{{task.canRefund}}" class="btn-ghost" loading="{{actionLoading}}" disabled="{{actionLoading}}" bindtap="requestRefund">申请退款</button>
+            <button wx:if="{{task.status === 'COMPLETED' && !task.rated}}" class="btn-primary" bindtap="openRating">评价本次服务</button>
+            <view wx:if="{{task.status === 'COMPLETED' && task.rated}}" class="rated-box">★ 已评价 · 感谢你的反馈</view>
+            <button class="btn-ghost support-button" bindtap="contactSupport">对服务有疑问</button>
+            <button class="btn-ghost support-button" bindtap="rebook">再约一次</button>
+        </view>
+    </block>
+</view>
+
+<view wx:if="{{showRating}}" class="sheet-mask" bindtap="closeRating">
+    <view class="sheet" catchtap="noop">
+        <view class="sheet-head">
+            <text class="sheet-title">评价本次服务</text>
+            <view class="sheet-close" bindtap="closeRating">×</view>
+        </view>
+        <view class="rating-tip">你的评价会帮助其他主人选择可靠的服务学生。</view>
+        <view class="star-row">
+            <view
+                wx:for="{{starOptions}}"
+                wx:key="value"
+                class="star-choice {{item.value <= stars ? 'star-active' : ''}}"
+                data-value="{{item.value}}"
+                bindtap="selectStar"
+            >★</view>
+        </view>
+        <view class="rating-value">{{stars}} 星</view>
+        <button class="btn-primary rating-submit" loading="{{actionLoading}}" disabled="{{actionLoading}}" bindtap="submitRating">提交评价</button>
+    </view>
+</view>

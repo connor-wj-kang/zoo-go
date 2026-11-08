@@ -1,0 +1,99 @@
+<nav-bar title="{{navTitle}}" back />
+
+<view class="page page-no-tab task-page">
+    <view wx:if="{{loading}}" class="loading-wrap">正在加载报价…</view>
+
+    <block wx:elif="{{task}}">
+        <view class="card summary-card">
+            <image class="summary-img" src="{{task.pet.image}}" mode="aspectFill" />
+            <view class="grow summary-main">
+                <view class="between">
+                    <text class="summary-name">{{task.pet.name}} · {{task.pet.breed}}</text>
+                    <text class="status-pill {{task.statusClass}}">{{task.statusText}}</text>
+                </view>
+                <view class="summary-line">◷ {{task.serviceDateText}} {{task.timeWindow}}</view>
+                <view class="summary-line">⌖ {{task.community}}</view>
+                <view class="summary-services">{{task.servicesText}}　<text class="price">预算 ≤ ¥{{task.budgetText}}</text></view>
+            </view>
+        </view>
+
+        <view wx:if="{{task.status === 'PENDING_PAYMENT'}}" class="section payment-section">
+            <view class="section-head"><text class="section-title">确认并支付</text></view>
+            <view class="card payment-card">
+                <view class="winner-row">
+                    <image class="avatar" src="{{task.winner.avatar}}" mode="aspectFill" />
+                    <view class="grow">
+                        <view class="bold">{{task.winner.name}} <text class="verified">已核验</text></view>
+                        <view class="tiny muted">评分 {{task.winner.rating}} · 完成 {{task.winner.doneCount}} 单</view>
+                    </view>
+                    <text class="pay-amount">¥{{task.priceText}}</text>
+                </view>
+                <view class="countdown-box">
+                    <text>中选资格保留，请尽快支付</text>
+                    <text class="countdown-value">{{task.payRemainingText}}</text>
+                </view>
+                <view class="tiny muted pay-note">支付总价即中选报价，不会在支付页增加额外费用。</view>
+                <button class="btn-primary pay-button" loading="{{actionLoading}}" disabled="{{actionLoading}}" bindtap="pay">微信支付 ¥{{task.priceText}}</button>
+                <button class="btn-ghost reopen-button" disabled="{{actionLoading}}" bindtap="reopen">换人选择 / 重新竞价</button>
+            </view>
+        </view>
+
+        <block wx:if="{{task.status === 'BIDDING'}}">
+            <view class="bidding-banner">
+                <view class="banner-left"><text class="flame">♨</text> 竞价进行中</view>
+                <view>剩余 <text class="banner-time">{{task.remainingText}}</text></view>
+            </view>
+
+            <view class="section bid-section">
+                <view class="section-head">
+                    <text class="section-title">已收到 {{task.bidCount}} 个报价</text>
+                    <text class="tiny muted">不会自动选最低价</text>
+                </view>
+                <view wx:if="{{bids.length}}" class="bid-list">
+                    <view class="card bid-card" wx:for="{{bids}}" wx:key="id">
+                        <view class="bid-head">
+                            <image class="avatar" src="{{item.student.avatar}}" mode="aspectFill" />
+                            <view class="grow bid-person">
+                                <view class="row bid-name-row">
+                                    <text class="bold">{{item.student.name}}</text>
+                                    <text class="verified">已核验</text>
+                                </view>
+                                <view class="tiny muted">
+                                    <text class="star">★</text> {{item.ratingText}} · {{item.student.doneCount}}单 · 距你约 {{item.distanceText}}km
+                                </view>
+                            </view>
+                            <view class="bid-price-wrap">
+                                <text class="bid-price">¥{{item.priceText}}</text>
+                                <text wx:if="{{item.lowest}}" class="lowest-tag">↓ 最低价</text>
+                            </view>
+                        </view>
+                        <view wx:if="{{item.message}}" class="bid-message">💬 {{item.message}}</view>
+                        <button class="btn-primary pick-button" data-id="{{item.id}}" bindtap="pickBid">选 TA 上门</button>
+                    </view>
+                </view>
+                <view wx:else class="card empty no-bid">
+                    <view>暂无报价，附近学生已收到通知</view>
+                    <button class="btn-secondary student-view-button" bindtap="goStudentHall">切换学生端查看此任务</button>
+                </view>
+            </view>
+
+            <button class="cancel-link" bindtap="cancelTask">撤销任务（未付款无需退款）</button>
+        </block>
+    </block>
+</view>
+
+<view wx:if="{{showSheet}}" class="sheet-mask" bindtap="closeSheet">
+    <view class="sheet" catchtap="noop">
+        <view class="sheet-head">
+            <text class="sheet-title">确认选择</text>
+            <view class="sheet-close" bindtap="closeSheet">×</view>
+        </view>
+        <view wx:if="{{selectedBid}}">
+            <view class="info-row"><text class="muted">服务者</text><text>{{selectedBid.student.name}}（已核验）</text></view>
+            <view class="info-row"><text class="muted">成交价</text><text class="price">¥{{selectedBid.priceText}}</text></view>
+            <view class="info-row"><text class="muted">服务时间</text><text>{{task.serviceDateText}} {{task.timeWindow}}</text></view>
+            <view class="sheet-tip">选定后任务将锁定，请在 10 分钟内完成支付；其他报价暂时冻结。</view>
+            <button class="btn-primary sheet-submit" loading="{{actionLoading}}" disabled="{{actionLoading}}" bindtap="confirmAward">确认选择并去支付</button>
+        </view>
+    </view>
+</view>

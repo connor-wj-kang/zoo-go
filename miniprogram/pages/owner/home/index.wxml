@@ -1,0 +1,126 @@
+<nav-bar title="喂宠到家" right-icon="♧" bind:right="onBell" />
+
+<view class="page home-page">
+    <view wx:if="{{loading}}" class="loading-wrap">正在准备你的喂宠首页…</view>
+
+    <view wx:elif="{{error}}" class="card error-card">
+        <view class="bold">首页加载失败</view>
+        <view class="small muted error-text">{{error}}</view>
+        <button class="btn-secondary retry-btn" bindtap="retry">重新加载</button>
+    </view>
+
+    <block wx:else>
+        <view class="area-row">
+            <text class="pin">⌖</text>
+            <text>{{area.district}} · {{area.name}}</text>
+            <text class="area-open">{{area.enabled ? '已开通' : '未开通'}}</text>
+        </view>
+
+        <view class="hero">
+            <image class="hero-img" src="/assets/pets/hero.jpg" mode="aspectFill" />
+            <view class="hero-shade"></view>
+            <view class="hero-content">
+                <view class="hero-kicker">你出价格上限，学生来报价</view>
+                <view class="hero-title">出门在外，毛孩子有人管</view>
+                <button class="hero-button" bindtap="goPublish"><text class="hero-plus">＋</text>发布喂宠任务</button>
+            </view>
+        </view>
+
+        <view class="community-bar" bindtap="goCommunity">
+            <view class="community-icon">◎</view>
+            <view class="grow">
+                <view class="community-title-row">
+                    <text class="community-title">邻里社区</text>
+                    <text class="community-count">{{community.total}} 条动态</text>
+                </view>
+                <view class="community-latest">{{community.latestText}}</view>
+            </view>
+            <view class="community-action" catchtap="goCommunityPublish">发动态</view>
+        </view>
+
+        <view class="steps-grid">
+            <view class="step-card" wx:for="{{steps}}" wx:key="title">
+                <view class="step-icon">{{item.glyph}}</view>
+                <view class="step-title">{{index + 1}}. {{item.title}}</view>
+                <view class="step-desc">{{item.description}}</view>
+            </view>
+        </view>
+
+        <view class="section">
+            <view class="section-head">
+                <text class="section-title">进行中的任务</text>
+                <text class="section-extra" bindtap="goOrders">全部订单 ›</text>
+            </view>
+            <view wx:if="{{tasks.length}}" class="task-stack">
+                <view
+                    wx:for="{{tasks}}"
+                    wx:key="id"
+                    class="card task-card"
+                    data-id="{{item.id}}"
+                    data-order-id="{{item.orderId}}"
+                    data-status="{{item.status}}"
+                    bindtap="goTask"
+                >
+                    <image class="pet-thumb" src="{{item.pet.image}}" mode="aspectFill" />
+                    <view class="grow task-main">
+                        <view class="between">
+                            <text class="task-name">{{item.pet.name}} · {{item.serviceTitle}}</text>
+                            <text class="status-pill {{item.statusClass}}">{{item.statusText}}</text>
+                        </view>
+                        <view class="task-time">◷ {{item.serviceDateText}} {{item.timeWindow}}</view>
+                        <view class="between task-foot">
+                            <text wx:if="{{item.priceFen}}" class="price task-price">成交 ¥{{item.priceText}}</text>
+                            <text wx:else class="price task-price">预算 ≤ ¥{{item.budgetText}}</text>
+                            <text wx:if="{{item.status === 'BIDDING'}}" class="bid-count">{{item.bidCount}} 人已报价 ›</text>
+                            <text wx:else class="muted">›</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view wx:else class="card empty">暂无进行中的任务，试着发布一单吧</view>
+        </view>
+
+        <view class="section">
+            <view class="section-head"><text class="section-title">我的宠物</text></view>
+            <scroll-view class="pet-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+                <view class="pet-row">
+                    <view class="card pet-card" wx:for="{{pets}}" wx:key="id">
+                        <image class="pet-card-img" src="{{item.image}}" mode="aspectFill" />
+                        <view class="grow">
+                            <view class="bold">{{item.name}}</view>
+                            <view class="tiny muted">{{item.breed}} · {{item.age}}</view>
+                            <view class="flag-row">
+                                <text class="flag" wx:for="{{item.flags}}" wx:for-item="flag" wx:key="*this">{{flag}}</text>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="add-pet" bindtap="addPet"><text class="add-plus">＋</text><text>添加宠物</text></view>
+                </view>
+            </scroll-view>
+        </view>
+
+        <view class="section">
+            <view class="section-head"><text class="section-title">平台保障</text></view>
+            <view class="card guarantee-card">
+                <view class="guarantee-item" wx:for="{{guarantees}}" wx:key="title">
+                    <view class="guarantee-icon">{{item.glyph}}</view>
+                    <view class="grow">
+                        <view class="guarantee-title">{{item.title}}</view>
+                        <view class="tiny muted">{{item.description}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <view class="student-entry" bindtap="goStudent">
+            <view class="student-entry-icon">⇄</view>
+            <view class="grow">
+                <view class="bold">切换为学生接单身份</view>
+                <view class="tiny student-entry-desc">已认证学生可浏览附近任务并报价</view>
+            </view>
+            <text>›</text>
+        </view>
+    </block>
+</view>
+
+<tab-bar role="owner" active="home" />
