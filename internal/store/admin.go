@@ -99,7 +99,7 @@ func (s *Store) UpdateUserAccountStatus(userID, status, reason string, now time.
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	nowText := timestamp(now)
 	var disabledAt string
 	if status == domain.AccountDisabled {

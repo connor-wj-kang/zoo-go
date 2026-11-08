@@ -431,7 +431,7 @@ func (s *Store) Login(openID, nickname, avatar, phoneMask string, now time.Time)
 	if err != nil {
 		return domain.Session{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	nowText := timestamp(now)
 	if _, err := tx.Exec(`DELETE FROM sessions WHERE expires_at <= ?`, nowText); err != nil {
 		return domain.Session{}, err
@@ -580,14 +580,6 @@ func (s *Store) defaultAddress(ownerID string) (*domain.OwnerAddress, error) {
 		return nil, err
 	}
 	return &address, nil
-}
-
-func (s *Store) saveDefaultAddress(ownerID, community, detail string, now time.Time) error {
-	_, err := s.db.Exec(`
-		INSERT INTO owner_addresses(owner_id, community, detail, updated_at) VALUES(?, ?, ?, ?)
-		ON CONFLICT(owner_id) DO UPDATE SET community = excluded.community, detail = excluded.detail, updated_at = excluded.updated_at
-	`, ownerID, community, detail, timestamp(now))
-	return err
 }
 
 func (s *Store) Meta(now time.Time) domain.Meta {

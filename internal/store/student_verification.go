@@ -41,7 +41,7 @@ func (s *Store) SubmitStudentVerification(userID string, req domain.SubmitStuden
 	if err != nil {
 		return domain.Student{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	var user dbUser
 	var ownerVerified, studentVerified int
 	err = tx.QueryRow(`
@@ -168,7 +168,7 @@ func (s *Store) ApproveStudentVerification(applicationID, reviewer string, valid
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	var userID, school, status string
 	err = tx.QueryRow(`
 		SELECT user_id, school, status FROM student_verifications WHERE id = ?
@@ -219,7 +219,7 @@ func (s *Store) RejectStudentVerification(applicationID, reviewer, reason string
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	var userID, status string
 	err = tx.QueryRow(`SELECT user_id, status FROM student_verifications WHERE id = ?`, applicationID).Scan(&userID, &status)
 	if errors.Is(err, sql.ErrNoRows) {
@@ -276,7 +276,7 @@ func (s *Store) expireStudentVerifications(now time.Time) error {
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	if _, err := tx.Exec(`
 		UPDATE student_verifications SET status = 'EXPIRED', updated_at = ?
 		WHERE status = 'VERIFIED' AND valid_until <> '' AND valid_until <= ?

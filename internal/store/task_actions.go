@@ -122,7 +122,7 @@ func (s *Store) PublishTask(req domain.PublishTaskRequest, now time.Time) (domai
 	if err != nil {
 		return domain.TaskView{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	if _, err := tx.Exec(`
 		INSERT INTO tasks(id, owner_id, pet_id, pet_snapshot, mode, status, budget_fen, price_fen,
 		                  service_date, service_date_text, time_window, start_at, services_json,
@@ -195,7 +195,7 @@ func (s *Store) SubmitBid(taskID string, req domain.SubmitBidRequest, now time.T
 	if err != nil {
 		return domain.TaskView{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	task, err := scanTask(tx.QueryRow(`SELECT `+taskColumns+` FROM tasks WHERE id = ?`, taskID))
 	if errors.Is(err, sql.ErrNoRows) {
 		return domain.TaskView{}, notFound("任务不存在")
@@ -300,7 +300,7 @@ func (s *Store) AwardTask(taskID string, req domain.AwardRequest, now time.Time)
 	if err != nil {
 		return domain.TaskView{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	task, err := scanTask(tx.QueryRow(`SELECT `+taskColumns+` FROM tasks WHERE id = ?`, taskID))
 	if errors.Is(err, sql.ErrNoRows) {
 		return domain.TaskView{}, notFound("任务不存在")
@@ -395,7 +395,7 @@ func (s *Store) ReopenTask(taskID, ownerID string, now time.Time) (domain.TaskVi
 	if err != nil {
 		return domain.TaskView{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	task, err := scanTask(tx.QueryRow(`SELECT `+taskColumns+` FROM tasks WHERE id = ?`, taskID))
 	if errors.Is(err, sql.ErrNoRows) {
 		return domain.TaskView{}, notFound("任务不存在")
@@ -454,7 +454,7 @@ func (s *Store) CancelTask(taskID, ownerID string, now time.Time) (domain.TaskVi
 	if err != nil {
 		return domain.TaskView{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	task, err := scanTask(tx.QueryRow(`SELECT `+taskColumns+` FROM tasks WHERE id = ?`, taskID))
 	if errors.Is(err, sql.ErrNoRows) {
 		return domain.TaskView{}, notFound("任务不存在")
@@ -509,7 +509,7 @@ func (s *Store) CheckIn(orderID, studentID string, now time.Time) (domain.TaskVi
 	if err != nil {
 		return domain.TaskView{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	var taskID, ownerID, status string
 	err = tx.QueryRow(`SELECT task_id, student_id, status FROM orders WHERE id = ?`, orderID).Scan(&taskID, &ownerID, &status)
 	if errors.Is(err, sql.ErrNoRows) {
@@ -552,7 +552,7 @@ func (s *Store) Complete(orderID string, req domain.CompleteRequest, now time.Ti
 	if err != nil {
 		return domain.TaskView{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	var taskID, studentID, status string
 	err = tx.QueryRow(`SELECT task_id, student_id, status FROM orders WHERE id = ?`, orderID).Scan(&taskID, &studentID, &status)
 	if errors.Is(err, sql.ErrNoRows) {
@@ -607,7 +607,7 @@ func (s *Store) Confirm(orderID, ownerID string, now time.Time) (domain.TaskView
 	if err != nil {
 		return domain.TaskView{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	var taskID, orderOwner, status string
 	err = tx.QueryRow(`SELECT task_id, owner_id, status FROM orders WHERE id = ?`, orderID).Scan(&taskID, &orderOwner, &status)
 	if errors.Is(err, sql.ErrNoRows) {
@@ -659,7 +659,7 @@ func (s *Store) Rate(orderID string, req domain.RateRequest) (domain.TaskView, e
 	if err != nil {
 		return domain.TaskView{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	var taskID, ownerID, status string
 	var rated int
 	err = tx.QueryRow(`

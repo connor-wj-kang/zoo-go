@@ -143,13 +143,13 @@ func (s *Store) migrateOrdersTaskUniqueness() error {
 	if _, err := s.db.Exec(`PRAGMA foreign_keys = OFF`); err != nil {
 		return err
 	}
-	defer s.db.Exec(`PRAGMA foreign_keys = ON`)
+	defer func() { _, _ = s.db.Exec(`PRAGMA foreign_keys = ON`) }()
 
 	tx, err := s.db.Begin()
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	if _, err := tx.Exec(`
 		CREATE TABLE orders_migrated (
 			id TEXT PRIMARY KEY,
@@ -266,7 +266,7 @@ func (s *Store) rebuildStudentSlots() error {
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	if _, err := tx.Exec(`DELETE FROM student_slots`); err != nil {
 		return err
 	}

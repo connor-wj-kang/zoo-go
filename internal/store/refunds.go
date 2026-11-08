@@ -21,7 +21,7 @@ func (s *Store) RequestRefund(orderID string, req domain.RefundRequest, now time
 	if err != nil {
 		return domain.Refund{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 
 	var ownerID, orderStatus, taskStatus, paymentID, paymentStatus string
 	var amountFen, paymentAmount int64
@@ -96,7 +96,7 @@ func (s *Store) StartRefund(refundID, reviewer string, now time.Time) (domain.Re
 	if err != nil {
 		return domain.Refund{}, "", err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	var orderID, taskID, status, outTradeNo, orderStatus, taskStatus, paymentStatus, startAt string
 	err = tx.QueryRow(`
 		SELECT r.order_id, o.task_id, r.status, p.out_trade_no,
@@ -160,7 +160,7 @@ func (s *Store) ApplyRefundResult(refundID, wechatRefundID, status string, amoun
 	if err != nil {
 		return domain.Refund{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	var orderID, taskID, currentStatus, paymentStatus string
 	var expectedAmount int64
 	err = tx.QueryRow(`
@@ -263,7 +263,7 @@ func (s *Store) FailRefund(refundID, message string, now time.Time) error {
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	var orderID, taskID, paymentStatus string
 	if err := tx.QueryRow(`SELECT order_id FROM refunds WHERE id = ?`, refundID).Scan(&orderID); err != nil {
 		return err
@@ -298,7 +298,7 @@ func (s *Store) RejectRefund(refundID, reviewer string, now time.Time) error {
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 	var paymentStatus string
 	err = tx.QueryRow(`
 		SELECT p.status FROM refunds r JOIN payments p ON p.id = r.payment_id WHERE r.id = ?
