@@ -1,0 +1,40 @@
+services:
+  api:
+    image: ${ZOO_IMAGE:-ghcr.io/connor-wj-kang/zoo-go:latest}
+    container_name: zoo-api
+    restart: unless-stopped
+    depends_on:
+      - openobserve
+    ports:
+      - "${API_PORT:-8080}:8080"
+    env_file:
+      - .env
+    environment:
+      ADDR: ":8080"
+      DATA_FILE: /app/data/zoo.db
+      UPLOAD_DIR: /app/data/uploads
+      ADMIN_DIR: /app/admin
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-http://openobserve:5080/api/default}
+      OTEL_RESOURCE_ATTRIBUTES: ${OTEL_RESOURCE_ATTRIBUTES:-deployment.environment=prod}
+    volumes:
+      - ../data:/app/data
+      - ../secrets:/app/secrets:ro
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/v1/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  openobserve:
+    image: public.ecr.aws/zinclabs/openobserve:latest
+    container_name: openobserve
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${O2_PORT:-5080}:5080"
+    environment:
+      ZO_ROOT_USER_EMAIL: ${O2_USER:?set O2_USER in deploy/.env}
+      ZO_ROOT_USER_PASSWORD: ${O2_PASS:?set O2_PASS in deploy/.env}
+      ZO_DATA_DIR: /data
+    volumes:
+      - ../data/openobserve:/data

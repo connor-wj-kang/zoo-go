@@ -10,8 +10,9 @@ RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/zoo-api ./cmd/api
 
 FROM alpine:3.21
 
-RUN adduser -D -u 10001 app \
-    && mkdir -p /app/data \
+RUN apk add --no-cache ca-certificates tzdata wget \
+    && adduser -D -u 10001 app \
+    && mkdir -p /app/data/uploads \
     && chown -R app:app /app
 COPY --from=builder /out/zoo-api /usr/local/bin/zoo-api
 COPY --from=builder /src/admin /app/admin
