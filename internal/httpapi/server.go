@@ -142,10 +142,10 @@ func (s *Server) middleware(next http.Handler) http.Handler {
 		}
 		defer func() {
 			if recovered := recover(); recovered != nil {
-				s.logger.Error("panic recovered", "panic", recovered, "path", r.URL.Path)
+				s.logger.ErrorContext(r.Context(), "panic recovered", "panic", recovered, "path", r.URL.Path)
 				writeJSON(w, http.StatusInternalServerError, errorEnvelope{Error: apiError{Code: "INTERNAL_ERROR", Message: "服务暂时不可用"}})
 			}
-			s.logger.Info("request", "method", r.Method, "path", r.URL.Path, "duration", time.Since(start).String())
+			s.logger.InfoContext(r.Context(), "request", "method", r.Method, "path", r.URL.Path, "duration", time.Since(start).String())
 		}()
 		next.ServeHTTP(w, r)
 	})
