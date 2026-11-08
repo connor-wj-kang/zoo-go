@@ -1,0 +1,81 @@
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  build-and-push:
+    name: build-and-push
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.meta.outputs.image }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Image metadata
+        id: meta
+        run: |
+          image="ghcr.io/${GITHUB_REPOSITORY,,}"
+          tag="${image}:${GITHUB_SHA}"
+          {
+            echo "image=${tag}"
+            echo "tags=${tag},${image}:latest"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    name: deploy
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.2
+        env:
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+          GHCR_USER: ${{ secrets.GHCR_USER }}
+          IMAGE: ${{ needs.build-and-push.outputs.image }}
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: 22
+          envs: DEPLOY_PATH,GHCR_TOKEN,GHCR_USER,IMAGE
+          script: |
+            set -euo pipefail
+            DEPLOY_PATH="${DEPLOY_PATH:-/opt/zoo-go}"
+            cd "$DEPLOY_PATH"
+            git fetch origin main
+            git checkout --force main
+            git reset --hard origin/main
+            if [[ -n "${GHCR_TOKEN:-}" ]]; then
+              echo "$GHCR_TOKEN" | docker login ghcr.io -u "${GHCR_USER:-$USER}" --password-stdin
+            fi
+            ./deploy/deploy.sh "$IMAGE"
