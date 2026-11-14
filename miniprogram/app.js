@@ -1,3 +1,4 @@
+// CI smoke: trigger miniprogram-release upload
 const TOKEN_KEY = 'zoo.authToken'
 const PROFILE_KEY = 'zoo.authProfile'
 const DEVICE_KEY = 'zoo.deviceId'
