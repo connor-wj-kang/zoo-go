@@ -29,7 +29,8 @@ concurrency:
 jobs:
   upload:
     name: upload
-    runs-on: ubuntu-latest
+    # Fixed public IP on the ECS deploy host (for WeChat CI IP allowlist).
+    runs-on: [self-hosted, Linux, X64]
     steps:
       - uses: actions/checkout@v5
 
