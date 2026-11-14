@@ -1,0 +1,79 @@
+name: miniprogram-release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'miniprogram/**'
+      - 'scripts/upload-miniprogram.mjs'
+      - 'scripts/validate-miniprogram.mjs'
+      - '.github/workflows/miniprogram-release.yml'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Upload version (empty = YYYY.MMDD.HHmm + short sha)'
+        required: false
+        type: string
+      desc:
+        description: 'Upload description'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: miniprogram-release
+  cancel-in-progress: false
+
+jobs:
+  upload:
+    name: upload
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate miniprogram
+        run: node scripts/validate-miniprogram.mjs
+
+      - name: Install miniprogram-ci
+        run: npm install --no-save miniprogram-ci@2
+
+      - name: Resolve version and desc
+        id: meta
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+          INPUT_DESC: ${{ github.event.inputs.desc }}
+          SHA: ${{ github.sha }}
+        run: |
+          short_sha="${SHA:0:7}"
+          if [[ -n "${INPUT_VERSION:-}" ]]; then
+            version="$INPUT_VERSION"
+          else
+            version="$(date -u +%Y.%m%d.%H%M)-${short_sha}"
+          fi
+          if [[ -n "${INPUT_DESC:-}" ]]; then
+            desc="$INPUT_DESC"
+          else
+            desc="$(git log -1 --pretty=%s | tr -d '\r\n' | cut -c1-100)"
+            desc="${desc:-ci upload ${short_sha}}"
+          fi
+          {
+            echo "version=${version}"
+            echo "desc=${desc}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upload to WeChat
+        env:
+          WECHAT_APPID: ${{ secrets.WECHAT_APPID }}
+          WECHAT_MINIPROGRAM_PRIVATE_KEY: ${{ secrets.WECHAT_MINIPROGRAM_PRIVATE_KEY }}
+          MINIPROGRAM_VERSION: ${{ steps.meta.outputs.version }}
+          MINIPROGRAM_DESC: ${{ steps.meta.outputs.desc }}
+          MINIPROGRAM_ROBOT: ${{ vars.MINIPROGRAM_ROBOT }}
+        run: |
+          export MINIPROGRAM_ROBOT="${MINIPROGRAM_ROBOT:-1}"
+          node scripts/upload-miniprogram.mjs
